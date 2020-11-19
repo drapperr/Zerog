@@ -2,9 +2,8 @@
 {
     using System.Diagnostics;
 
-    using Zerog.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+    using Zerog.Web.ViewModels;
 
     public class HomeController : BaseController
     {

@@ -4,9 +4,8 @@ namespace Zerog.Data.Models
     using System;
     using System.Collections.Generic;
 
-    using Zerog.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using Zerog.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
