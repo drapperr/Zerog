@@ -5,9 +5,9 @@
 
     public interface IMotherboardsService
     {
-        public void Add(MotherboardDtoModel input);
+        public void Add(MotherboardViewModel input);
 
-        IEnumerable<MotherboardDtoModel> GetAll();
+        IEnumerable<MotherboardViewModel> GetAll();
 
         //public bool Delete(int id);
 

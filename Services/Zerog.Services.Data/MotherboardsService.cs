@@ -48,41 +48,41 @@
             this.formFactorRepository = formFactorRepository;
         }
 
-        public void Add(MotherboardDtoModel input)
+        public void Add(MotherboardViewModel input)
         {
-            MotherboardManufacturer manufacturer = this.GetOrCreateManufacturer(input.Manufacturer);
-            Sockets socket = this.GetOrCreateSocket(input.Socket);
-            Chipset chipset = this.GetOrCreateChipset(input.Chipset);
-            List<MotherboardSupportedProcessor> supportedProcessors = this.GetOrCreateSupportedProcressors(input.SupportedProcessors);
-            MemoryType memoryType = this.GetOrCreateMemoryType(input.MemoryType);
-            SoundCard soundCard = this.GetOrCreateSoundCard(input.SoundCard);
-            LanCard lanCard = this.GetOrCreateLanCard(input.LanCard);
-            List<MotherboardInterface> interfaces = this.GetOrCreateInterfaces(input.Interfaces);
-            List<MotherboardPorts> ports = this.GetOrCreatePorts(input.Ports);
-            FormFactor formFactor = this.GetOrCreateFormFactor(input.FormFactor);
+            //MotherboardManufacturer manufacturer = this.GetOrCreateManufacturer(input.Manufacturer);
+            //Sockets socket = this.GetOrCreateSocket(input.Socket);
+            //Chipset chipset = this.GetOrCreateChipset(input.Chipset);
+            //List<MotherboardSupportedProcessor> supportedProcessors = this.GetOrCreateSupportedProcressors(input.SupportedProcessors);
+            //MemoryType memoryType = this.GetOrCreateMemoryType(input.MemoryType);
+            //SoundCard soundCard = this.GetOrCreateSoundCard(input.SoundCard);
+            //LanCard lanCard = this.GetOrCreateLanCard(input.LanCard);
+            //List<MotherboardInterface> interfaces = this.GetOrCreateInterfaces(input.Interfaces);
+            //List<MotherboardPorts> ports = this.GetOrCreatePorts(input.Ports);
+            //FormFactor formFactor = this.GetOrCreateFormFactor(input.FormFactor);
 
-            var motherboard = new Motherboard
-            {
-                Name = input.Name,
-                Manufacturer = manufacturer,
-                Price = input.Price,
-                Images = input.Images.Select(i => new MotherboardImage { Url = i }).ToList(),
-                Socket = socket,
-                Chipset = chipset,
-                SupportedProcessors = supportedProcessors,
-                MemoryType = memoryType,
-                MemorySpeed = input.MemorySpeed,
-                MemorySlots = input.MemorySlots,
-                SoundCard = soundCard,
-                LanCard = lanCard,
-                Interfaces = interfaces,
-                Ports = ports,
-                FormFactor = formFactor,
-                Demensions = input.Demensions,
-            };
+            //var motherboard = new Motherboard
+            //{
+            //    Name = input.Name,
+            //    Manufacturer = manufacturer,
+            //    Price = input.Price,
+            //    Images = input.Images.Select(i => new MotherboardImage { Url = i }).ToList(),
+            //    Socket = socket,
+            //    Chipset = chipset,
+            //    SupportedProcessors = supportedProcessors,
+            //    MemoryType = memoryType,
+            //    MemorySpeed = input.MemorySpeed,
+            //    MemorySlots = input.MemorySlots,
+            //    SoundCard = soundCard,
+            //    LanCard = lanCard,
+            //    Interfaces = interfaces,
+            //    Ports = ports,
+            //    FormFactor = formFactor,
+            //    Demensions = input.Demensions,
+            //};
 
-            this.motherboardRepository.AddAsync(motherboard);
-            this.motherboardRepository.SaveChangesAsync();
+            //this.motherboardRepository.AddAsync(motherboard);
+            //this.motherboardRepository.SaveChangesAsync();
         }
 
         private FormFactor GetOrCreateFormFactor(string formFactorName)
@@ -225,37 +225,11 @@
             return manufacturer;
         }
 
-        public IEnumerable<MotherboardDtoModel> GetAll()
+        public IEnumerable<MotherboardViewModel> GetAll()
         {
-            return this.motherboardRepository.All()
-                .Select(x => new MotherboardDtoModel
-                {
-                    Name = x.Name,
-                    Manufacturer = x.Manufacturer.Name,
-                    Price = x.Price,
-                    Images = x.Images.Select(x => x.Url).ToList(),
-                    Socket = x.Socket.Name,
-                    Chipset = x.Chipset.Name,
-                    SupportedProcessors = x.SupportedProcessors.Select(x => x.SupportedProcessor.Name).ToList(),
-                    MemoryType = x.MemoryType.Name,
-                    MemorySpeed = x.MemorySpeed,
-                    MemorySlots = x.MemorySlots,
-                    SoundCard = x.SoundCard.Name,
-                    LanCard = x.LanCard.Name,
-                    Interfaces = x.Interfaces.Select(i => new NameCountDtoModel
-                    {
-                        Name = i.Interface.Name,
-                        Count = i.Count,
-                    }).ToList(),
-                    Ports = x.Ports.Select(p => new NameCountDtoModel
-                    {
-                        Name = p.Port.Name,
-                        Count = p.Count,
-                    }).ToList(),
-                    FormFactor = x.FormFactor.Name,
-                    Demensions = x.Demensions,
-                })
-                .ToList();
+            return this.motherboardRepository.AllAsNoTracking().Take(12)
+                .To<MotherboardViewModel>()
+                 .ToList();
         }
     }
 }

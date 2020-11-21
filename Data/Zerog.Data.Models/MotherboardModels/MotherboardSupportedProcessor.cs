@@ -1,6 +1,6 @@
 ﻿namespace Zerog.Data.Common.Models
 {
-    public class MotherboardSupportedProcessor : BaseDeletableModel<int>
+    public class MotherboardSupportedProcessor : BaseModel<int>
     {
         public int MotherboardId { get; set; }
 

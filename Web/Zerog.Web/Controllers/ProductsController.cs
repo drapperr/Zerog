@@ -21,7 +21,13 @@
         public IActionResult Motherboards()
         {
             var motherboards = this.motherboardsService.GetAll();
-            return this.View(motherboards);
+            return this.View("ProductsList", motherboards);
+        }
+
+        public async Task<IActionResult> Motherboard(int id)
+        {
+            var motherboard = this.motherboardsService.GetAll().FirstOrDefault();
+            return this.View(motherboard);
         }
     }
 }
