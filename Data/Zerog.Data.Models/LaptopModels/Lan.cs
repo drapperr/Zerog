@@ -5,9 +5,9 @@
 
     using Zerog.Data.Common.Models;
 
-    public class OS : BaseDeletableModel<int>
+    public class Lan : BaseDeletableModel<int>
     {
-        public OS()
+        public Lan()
         {
             this.Laptops = new HashSet<Laptop>();
         }

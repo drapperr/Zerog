@@ -10,6 +10,7 @@
     using Microsoft.EntityFrameworkCore;
     using Zerog.Data.Common.Models;
     using Zerog.Data.Models;
+    using Zerog.Data.Models.LaptopModels;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -25,95 +26,43 @@
 
         public DbSet<Setting> Settings { get; set; }
 
-        public DbSet<Motherboard> Motherboards { get; set; }
+        public DbSet<Laptop> Laptops { get; set; }
 
-        public DbSet<MotherboardManufacturer> MotherboardManufacturers { get; set; }
+        public DbSet<Audio> Audios { get; set; }
 
-        public DbSet<Chipset> Chipsets { get; set; }
+        public DbSet<Battery> Batteries { get; set; }
 
-        public DbSet<SupportedProcessor> SupportedProcessors { get; set; }
+        public DbSet<Camera> Cameras { get; set; }
 
-        public DbSet<MemoryType> MemoryTypes { get; set; }
+        public DbSet<Color> Colors { get; set; }
 
-        public DbSet<SoundCard> SoundCards { get; set; }
+        public DbSet<Display> Displays { get; set; }
 
-        public DbSet<LanCard> LanCards { get; set; }
+        public DbSet<Extra> Extras { get; set; }
+
+        public DbSet<HDD> HDDs { get; set; }
+
+        public DbSet<Image> Images { get; set; }
+
+        public DbSet<KeyboardDetail> KeyboardDetails { get; set; }
+
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+
+        public DbSet<Memory> Memories { get; set; }
+
+        public DbSet<OpSystem> OperatingSystems { get; set; }
 
         public DbSet<Port> Ports { get; set; }
 
-        public DbSet<FormFactor> FormFactors { get; set; }
+        public DbSet<Processor> Processors { get; set; }
 
-        public DbSet<Interface> Interfaces { get; set; }
+        public DbSet<Purpose> Purposes { get; set; }
 
-        //public DbSet<Processor> Processors { get; set; }
+        public DbSet<SSD> SSDs { get; set; }
 
-        //public DbSet<VideoCard> VideoCards { get; set; }
+        public DbSet<VideoCard> VideoCards { get; set; }
 
-        //public DbSet<Case> Cases { get; set; }
-
-        //public DbSet<Ram> Rams { get; set; }
-
-        //public DbSet<Storage> Storages { get; set; }
-
-        //public DbSet<PowerSupply> PowerSupplies { get; set; }
-
-        //public DbSet<CpuCooler> CpuCoolers { get; set; }
-
-        //public DbSet<RamManufacturer> RamManufacturers { get; set; }
-
-        //public DbSet<Timing> Timings { get; set; }
-
-        //public DbSet<ProcessorManufacturer> ProcessorManufacturers { get; set; }
-
-        //public DbSet<Socket> Sockets { get; set; }
-
-        //public DbSet<VideoCardManufacturer> VideoCardManufacturers { get; set; }
-
-        //public DbSet<GrphicProcessor> GrphicProcessors { get; set; }
-
-        //public DbSet<ChipsetManufacturer> ChipsetManufacturers { get; set; }
-
-        //public DbSet<VideoCardMemoryType> VideoCardMemoryTypes { get; set; }
-
-        //public DbSet<VideoCardSlot> VideoCardSlots { get; set; }
-
-        //public DbSet<DirectXVersion> DirectXVersions { get; set; }
-
-        //public DbSet<VExtra> Extras { get; set; }
-
-        //public DbSet<CaseManufacturer> CaseManufacturers { get; set; }
-
-        //public DbSet<CaseType> CaseTypes { get; set; }
-
-        //public DbSet<Slot> Slots { get; set; }
-
-        //public DbSet<Fan> Fans { get; set; }
-
-        //public DbSet<Radiator> Radiators { get; set; }
-
-        //public DbSet<CExtra> CExtras { get; set; }
-
-        //public DbSet<Device> Devices { get; set; }
-
-        //public DbSet<StorageManufacturer> StorageManufacturers { get; set; }
-
-        //public DbSet<StorageFormFactor> StorageFormFactors { get; set; }
-
-        //public DbSet<StorgeType> StorgeTypes { get; set; }
-
-        //public DbSet<Connector> Connectors { get; set; }
-
-        //public DbSet<PFC> PFCs { get; set; }
-
-        //public DbSet<PowerSupplyCooler> PowerSupplyCoolers { get; set; }
-
-        //public DbSet<PowerSupplyManufacturer> PowerSupplyManufacturers { get; set; }
-
-        //public DbSet<CpuCoolerManufacturer> CpuCoolerManufacturers { get; set; }
-
-        //public DbSet<CpuCoolerType> CpuCoolerTypes { get; set; }
-
-        //public DbSet<CpuCoolerConnector> CpuCoolerConnectors { get; set; }
+        public DbSet<WiFi> WiFis { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

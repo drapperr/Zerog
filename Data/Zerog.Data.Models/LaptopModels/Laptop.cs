@@ -7,8 +7,16 @@
 
     public class Laptop : BaseDeletableModel<int>
     {
+        public Laptop()
+        {
+            this.Images = new HashSet<Image>();
+            this.Ports = new HashSet<LaptopPort>();
+            this.KeyboardDetails = new HashSet<KeyboardDetail>();
+            this.Extras = new HashSet<Extra>();
+        }
+
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         public int ManufacturerId { get; set; }
@@ -63,6 +71,10 @@
 
         public virtual WiFi WiFi { get; set; }
 
+        public int LanId { get; set; }
+
+        public virtual Lan Lan { get; set; }
+
         public virtual ICollection<LaptopPort> Ports { get; set; }
 
         public virtual ICollection<KeyboardDetail> KeyboardDetails { get; set; }
@@ -71,7 +83,7 @@
 
         public int OperatingSystemId { get; set; }
 
-        public virtual OS OperatingSystem { get; set; }
+        public virtual OpSystem OperatingSystem { get; set; }
 
         public int BatteryId { get; set; }
 

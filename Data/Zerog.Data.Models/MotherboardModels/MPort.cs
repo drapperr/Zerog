@@ -2,10 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class Port : BaseDeletableModel<int>
+    public class MPort : BaseDeletableModel<int>
     {
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string Name { get; set; }
     }
 }

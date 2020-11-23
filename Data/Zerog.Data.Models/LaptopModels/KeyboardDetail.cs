@@ -13,7 +13,7 @@
         }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         public virtual ICollection<Laptop> Laptops { get; set; }

@@ -16,6 +16,7 @@
     using Zerog.Data.Models;
     using Zerog.Data.Repositories;
     using Zerog.Data.Seeding;
+    using Zerog.Services;
     using Zerog.Services.Data;
     using Zerog.Services.Mapping;
     using Zerog.Services.Messaging;
@@ -66,6 +67,8 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IMotherboardsService, MotherboardsService>();
+            services.AddTransient<ILaptopService, LaptopService>();
+            services.AddTransient<IArdesBgScraperService, ArdesBgScraperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

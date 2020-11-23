@@ -5,15 +5,15 @@
 
     using Zerog.Data.Common.Models;
 
-    public class Display : BaseDeletableModel<int>
+    public class OpSystem : BaseDeletableModel<int>
     {
-        public Display()
+        public OpSystem()
         {
             this.Laptops = new HashSet<Laptop>();
         }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         public virtual ICollection<Laptop> Laptops { get; set; }

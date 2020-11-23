@@ -10,7 +10,7 @@
             this.Images = new HashSet<MotherboardImage>();
             this.SupportedProcessors = new HashSet<MotherboardSupportedProcessor>();
             this.Interfaces = new HashSet<MotherboardInterface>();
-            this.Ports = new HashSet<MotherboardPorts>();
+            this.Ports = new HashSet<MotherboardPort>();
         }
 
         [Required]
@@ -53,7 +53,7 @@
 
         public virtual ICollection<MotherboardInterface> Interfaces { get; set; }
 
-        public virtual ICollection<MotherboardPorts> Ports { get; set; }
+        public virtual ICollection<MotherboardPort> Ports { get; set; }
 
         public int FormFactorId { get; set; }
 

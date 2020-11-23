@@ -19,7 +19,7 @@
         private readonly IDeletableEntityRepository<SoundCard> soundCardRepository;
         private readonly IDeletableEntityRepository<LanCard> lanCardRepository;
         private readonly IDeletableEntityRepository<Interface> interfaceRepository;
-        private readonly IDeletableEntityRepository<Port> portRepository;
+        private readonly IDeletableEntityRepository<MPort> portRepository;
         private readonly IDeletableEntityRepository<FormFactor> formFactorRepository;
 
         public MotherboardsService(
@@ -32,7 +32,7 @@
             IDeletableEntityRepository<SoundCard> soundCardRepository,
             IDeletableEntityRepository<LanCard> lanCardRepository,
             IDeletableEntityRepository<Interface> interfaceRepository,
-            IDeletableEntityRepository<Port> portRepository,
+            IDeletableEntityRepository<MPort> portRepository,
             IDeletableEntityRepository<FormFactor> formFactorRepository)
         {
             this.motherboardRepository = motherboardRepository;
@@ -50,19 +50,19 @@
 
         public void Add(MotherboardViewModel input)
         {
-            //MotherboardManufacturer manufacturer = this.GetOrCreateManufacturer(input.Manufacturer);
-            //Sockets socket = this.GetOrCreateSocket(input.Socket);
-            //Chipset chipset = this.GetOrCreateChipset(input.Chipset);
-            //List<MotherboardSupportedProcessor> supportedProcessors = this.GetOrCreateSupportedProcressors(input.SupportedProcessors);
-            //MemoryType memoryType = this.GetOrCreateMemoryType(input.MemoryType);
-            //SoundCard soundCard = this.GetOrCreateSoundCard(input.SoundCard);
-            //LanCard lanCard = this.GetOrCreateLanCard(input.LanCard);
-            //List<MotherboardInterface> interfaces = this.GetOrCreateInterfaces(input.Interfaces);
-            //List<MotherboardPorts> ports = this.GetOrCreatePorts(input.Ports);
-            //FormFactor formFactor = this.GetOrCreateFormFactor(input.FormFactor);
+            // MotherboardManufacturer manufacturer = this.GetOrCreateManufacturer(input.Manufacturer);
+            // Sockets socket = this.GetOrCreateSocket(input.Socket);
+            // Chipset chipset = this.GetOrCreateChipset(input.Chipset);
+            // List<MotherboardSupportedProcessor> supportedProcessors = this.GetOrCreateSupportedProcressors(input.SupportedProcessors);
+            // MemoryType memoryType = this.GetOrCreateMemoryType(input.MemoryType);
+            // SoundCard soundCard = this.GetOrCreateSoundCard(input.SoundCard);
+            // LanCard lanCard = this.GetOrCreateLanCard(input.LanCard);
+            // List<MotherboardInterface> interfaces = this.GetOrCreateInterfaces(input.Interfaces);
+            // List<MotherboardPorts> ports = this.GetOrCreatePorts(input.Ports);
+            // FormFactor formFactor = this.GetOrCreateFormFactor(input.FormFactor);
 
-            //var motherboard = new Motherboard
-            //{
+            // var motherboard = new Motherboard
+            // {
             //    Name = input.Name,
             //    Manufacturer = manufacturer,
             //    Price = input.Price,
@@ -79,10 +79,17 @@
             //    Ports = ports,
             //    FormFactor = formFactor,
             //    Demensions = input.Demensions,
-            //};
+            // };
 
-            //this.motherboardRepository.AddAsync(motherboard);
-            //this.motherboardRepository.SaveChangesAsync();
+            // this.motherboardRepository.AddAsync(motherboard);
+            // this.motherboardRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<MotherboardViewModel> GetAll()
+        {
+            return this.motherboardRepository.AllAsNoTracking().Take(12)
+                .To<MotherboardViewModel>()
+                 .ToList();
         }
 
         private FormFactor GetOrCreateFormFactor(string formFactorName)
@@ -97,9 +104,9 @@
             return formFactor;
         }
 
-        private List<MotherboardPorts> GetOrCreatePorts(ICollection<NameCountDtoModel> inputPorts)
+        private List<MotherboardPort> GetOrCreatePorts(ICollection<NameCountDtoModel> inputPorts)
         {
-            var ports = new List<MotherboardPorts>();
+            var ports = new List<MotherboardPort>();
 
             foreach (var portModel in inputPorts)
             {
@@ -107,10 +114,10 @@
 
                 if (port is null)
                 {
-                    port = new Port { Name = portModel.Name };
+                    port = new MPort { Name = portModel.Name };
                 }
 
-                ports.Add(new MotherboardPorts { Port = port, Count = portModel.Count });
+                ports.Add(new MotherboardPort { Port = port, Count = portModel.Count });
             }
 
             return ports;
@@ -223,13 +230,6 @@
             }
 
             return manufacturer;
-        }
-
-        public IEnumerable<MotherboardViewModel> GetAll()
-        {
-            return this.motherboardRepository.AllAsNoTracking().Take(12)
-                .To<MotherboardViewModel>()
-                 .ToList();
         }
     }
 }
