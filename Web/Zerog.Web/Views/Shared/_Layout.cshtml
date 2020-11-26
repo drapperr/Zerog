@@ -20,7 +20,7 @@
     <link type="text/css" rel="stylesheet" href="~/css/nouislider.min.css" />
 
     <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="~/css/style.css" />
 
@@ -168,6 +168,9 @@
                     <li>
                         <a class="nav-link text-dark" asp-area="" asp-controller="Laptops" asp-action="Create">CreateLaptop</a>
                     </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Laptops" asp-action="All">Laptops</a>
+                    </li>
                 </ul>
                 <!-- /NAV -->
             </div>
@@ -278,11 +281,10 @@
         <!-- /bottom footer -->
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+   
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    
     @await this.RenderSectionAsync("Scripts", required: false)
 
     <script src="~/js/jquery.min.js"></script>

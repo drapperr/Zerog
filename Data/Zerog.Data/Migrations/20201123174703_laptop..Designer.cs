@@ -10,8 +10,8 @@ using Zerog.Data;
 namespace Zerog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201122211113_FixLaptops")]
-    partial class FixLaptops
+    [Migration("20201123174703_laptop.")]
+    partial class laptop
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -327,8 +327,8 @@ namespace Zerog.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -598,6 +598,11 @@ namespace Zerog.Data.Migrations
                     b.Property<int>("CameraId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
 
@@ -611,6 +616,9 @@ namespace Zerog.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Discount")
+                        .HasColumnType("int");
 
                     b.Property<int>("DisplayId")
                         .HasColumnType("int");

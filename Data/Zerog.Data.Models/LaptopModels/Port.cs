@@ -9,13 +9,13 @@
     {
         public Port()
         {
-            this.Laptops = new HashSet<LaptopPort>();
+            this.LaptopPorts = new HashSet<LaptopPort>();
         }
 
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public virtual ICollection<LaptopPort> Laptops { get; set; }
+        public virtual ICollection<LaptopPort> LaptopPorts { get; set; }
     }
 }

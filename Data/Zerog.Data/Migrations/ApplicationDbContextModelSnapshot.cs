@@ -273,6 +273,36 @@ namespace Zerog.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Zerog.Data.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Audio", b =>
                 {
                     b.Property<int>("Id")
@@ -596,6 +626,9 @@ namespace Zerog.Data.Migrations
                     b.Property<int>("CameraId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
 
@@ -609,6 +642,9 @@ namespace Zerog.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Discount")
+                        .HasColumnType("int");
 
                     b.Property<int>("DisplayId")
                         .HasColumnType("int");
@@ -673,6 +709,8 @@ namespace Zerog.Data.Migrations
                     b.HasIndex("BatteryId");
 
                     b.HasIndex("CameraId");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("ColorId");
 
@@ -1157,6 +1195,12 @@ namespace Zerog.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Zerog.Data.Models.Category", "Category")
+                        .WithMany("Laptops")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Zerog.Data.Models.LaptopModels.Color", "Color")
                         .WithMany("Laptops")
                         .HasForeignKey("ColorId")
@@ -1235,6 +1279,8 @@ namespace Zerog.Data.Migrations
 
                     b.Navigation("Camera");
 
+                    b.Navigation("Category");
+
                     b.Navigation("Color");
 
                     b.Navigation("Display");
@@ -1286,6 +1332,11 @@ namespace Zerog.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("Zerog.Data.Models.Category", b =>
+                {
+                    b.Navigation("Laptops");
                 });
 
             modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Audio", b =>

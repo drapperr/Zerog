@@ -144,10 +144,35 @@
             await this.laptopRepository.SaveChangesAsync();
         }
 
+        public LaptopPartsViewModel GetAllParts()
+        {
+            return new LaptopPartsViewModel
+            {
+                Manufacturers = this.manufacturerRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Purposes = this.purposeRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Processors = this.processorRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Memories = this.memoryRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                VideoCards = this.videoCardRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                HDDs = this.hddRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                SSDs = this.ssdRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Displays = this.displayRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Cameras = this.cameraRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Audios = this.audioRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                WiFis = this.wifiRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Lans = this.lanRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Ports = this.portRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                KeyboardDetails = this.keyboardRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Extras = this.extraRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                OperatingSystems = this.operatinSystemRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Batteries = this.batteryRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+                Colors = this.colorRepository.AllAsNoTracking().Select(x => x.Name).ToList(),
+            };
+        }
+
         public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
         {
             var laptops = this.laptopRepository.AllAsNoTracking()
-               .OrderByDescending(x => x.Id)
+               .OrderBy(x => x.Id)
                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
                .To<T>().ToList();
             return laptops;

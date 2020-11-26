@@ -7,6 +7,7 @@
 
     using Newtonsoft.Json;
     using Zerog.Data.Common.Repositories;
+    using Zerog.Data.Models;
     using Zerog.Data.Models.LaptopModels;
     using Zerog.Web.ViewModels.Laptops;
 
@@ -14,6 +15,7 @@
     {
         private readonly IDeletableEntityRepository<Laptop> laptopRepository;
         private readonly IDeletableEntityRepository<Manufacturer> manufacturerRepository;
+        private readonly IDeletableEntityRepository<Category> categoryRepository;
         private readonly IDeletableEntityRepository<Purpose> purposeRepository;
         private readonly IDeletableEntityRepository<Processor> processorRepository;
         private readonly IDeletableEntityRepository<VideoCard> videoCardRepository;
@@ -35,6 +37,7 @@
         public ArdesBgScraperService(
             IDeletableEntityRepository<Laptop> laptopRepository,
             IDeletableEntityRepository<Manufacturer> manufacturerRepository,
+            IDeletableEntityRepository<Category> categoryRepository,
             IDeletableEntityRepository<Purpose> purposeRepository,
             IDeletableEntityRepository<Processor> processorRepository,
             IDeletableEntityRepository<VideoCard> videoCardRepository,
@@ -55,6 +58,7 @@
         {
             this.laptopRepository = laptopRepository;
             this.manufacturerRepository = manufacturerRepository;
+            this.categoryRepository = categoryRepository;
             this.purposeRepository = purposeRepository;
             this.processorRepository = processorRepository;
             this.videoCardRepository = videoCardRepository;
@@ -78,6 +82,8 @@
         {
             var json = File.ReadAllText("C:/Users/User/OneDrive/Desktop/Projects/ArdesScraper/ArdesScraper/JsonsData/laptops.json");
             var laptopModels = JsonConvert.DeserializeObject<List<LaptopDtoModel>>(json);
+            // laptopModels.Reverse();
+
             foreach (var laptop in laptopModels)
             {
                 await this.AddAsync(laptop);
@@ -86,6 +92,8 @@
 
         public async Task AddAsync(LaptopDtoModel input)
         {
+            Category category = await this.GetOrCreateCategory("Laptop");
+
             Manufacturer manufacturer = await this.GetOrCreateManufacturer(input.Manufacturer);
             Purpose purpose = await this.GetOrCreatePurpose(input.Purpose);
             Processor processor = await this.GetOrCreateProcessor(input.Processor);
@@ -120,11 +128,13 @@
             foreach (var extraName in input.Extras)
             {
                 Extra extra = await this.GetOrCreateExtra(extraName);
+                extras.Add(extra);
             }
 
             var laptop = new Laptop
             {
                 Name = input.Name,
+                Category = category,
                 Manufacturer = manufacturer,
                 Price = input.Price,
                 Images = input.Images.Select(x => new Image { Url = x }).ToList(),
@@ -153,6 +163,21 @@
 
             await this.laptopRepository.AddAsync(laptop);
             await this.laptopRepository.SaveChangesAsync();
+        }
+
+        private async Task<Category> GetOrCreateCategory(string categoryName)
+        {
+            var category = this.categoryRepository.All()
+                   .FirstOrDefault(x => x.Name == categoryName);
+
+            if (category is null)
+            {
+                category = new Category { Name = categoryName };
+                await this.categoryRepository.AddAsync(category);
+                await this.categoryRepository.SaveChangesAsync();
+            }
+
+            return category;
         }
 
         private async Task<Extra> GetOrCreateExtra(string extraName)

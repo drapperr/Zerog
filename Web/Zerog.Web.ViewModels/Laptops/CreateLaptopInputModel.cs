@@ -53,5 +53,7 @@
         public string Demensions { get; set; }
 
         public string Color { get; set; }
+
+        public LaptopPartsViewModel Parts { get; set; }
     }
 }
