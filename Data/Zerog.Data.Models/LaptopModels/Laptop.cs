@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Laptop : Product
+    using Zerog.Data.Common.Models;
+
+    public class Laptop : BaseDeletableModel<int>
     {
         public Laptop()
         {
@@ -12,6 +14,24 @@
             this.KeyboardDetails = new HashSet<KeyboardDetail>();
             this.Extras = new HashSet<Extra>();
         }
+
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public virtual Category Category { get; set; }
+
+        public int ManufacturerId { get; set; }
+
+        public virtual Manufacturer Manufacturer { get; set; }
+
+        public decimal Price { get; set; }
+
+        public int? Discount { get; set; }
+
+        public virtual ICollection<Image> Images { get; set; }
 
         public int PurposeId { get; set; }
 

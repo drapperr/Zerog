@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Zerog.Data.Models.LaptopModels;
     using Zerog.Web.ViewModels.Laptops;
 
     public interface ILaptopService

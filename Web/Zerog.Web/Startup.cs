@@ -65,9 +65,8 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<IMotherboardsService, MotherboardsService>();
             services.AddTransient<ILaptopService, LaptopService>();
+            services.AddTransient<IShoppingCartService, ShoppingCartService>();
             services.AddTransient<IArdesBgScraperService, ArdesBgScraperService>();
         }
 

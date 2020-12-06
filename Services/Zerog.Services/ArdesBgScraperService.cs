@@ -82,8 +82,8 @@
         {
             var json = File.ReadAllText("C:/Users/User/OneDrive/Desktop/Projects/ArdesScraper/ArdesScraper/JsonsData/laptops.json");
             var laptopModels = JsonConvert.DeserializeObject<List<LaptopDtoModel>>(json);
-            // laptopModels.Reverse();
 
+            // laptopModels.Reverse();
             foreach (var laptop in laptopModels)
             {
                 await this.AddAsync(laptop);

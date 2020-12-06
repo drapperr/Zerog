@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using Zerog.Data.Common.Repositories;
+    using Zerog.Data.Models;
     using Zerog.Data.Models.LaptopModels;
     using Zerog.Services.Mapping;
     using Zerog.Web.ViewModels.Laptops;
@@ -13,6 +14,7 @@
     {
         private readonly IDeletableEntityRepository<Laptop> laptopRepository;
         private readonly IDeletableEntityRepository<Manufacturer> manufacturerRepository;
+        private readonly IDeletableEntityRepository<Category> categoryRepository;
         private readonly IDeletableEntityRepository<Purpose> purposeRepository;
         private readonly IDeletableEntityRepository<Processor> processorRepository;
         private readonly IDeletableEntityRepository<VideoCard> videoCardRepository;
@@ -34,6 +36,7 @@
         public LaptopService(
             IDeletableEntityRepository<Laptop> laptopRepository,
             IDeletableEntityRepository<Manufacturer> manufacturerRepository,
+            IDeletableEntityRepository<Category> categoryRepository,
             IDeletableEntityRepository<Purpose> purposeRepository,
             IDeletableEntityRepository<Processor> processorRepository,
             IDeletableEntityRepository<VideoCard> videoCardRepository,
@@ -54,6 +57,7 @@
         {
             this.laptopRepository = laptopRepository;
             this.manufacturerRepository = manufacturerRepository;
+            this.categoryRepository = categoryRepository;
             this.purposeRepository = purposeRepository;
             this.processorRepository = processorRepository;
             this.videoCardRepository = videoCardRepository;
@@ -75,45 +79,49 @@
 
         public async Task CreateAsync(CreateLaptopInputModel input)
         {
-            Manufacturer manufacturer = this.GetOrCreateManufacturer(input.Manufacturer);
-            Purpose purpose = this.GetOrCreatePurpose(input.Purpose);
-            Processor processor = this.GetOrCreateProcessor(input.Processor);
-            VideoCard videCard = this.GetOrCreateVideoCard(input.VideoCard);
-            Memory memory = this.GetOrCreateMemory(input.Memory);
-            HDD hdd = this.GetOrCreateHDD(input.HDD);
-            SSD ssd = this.GetOrCreateSSD(input.SSD);
-            Display display = this.GetOrCreateDisplay(input.Display);
-            Camera camera = this.GetOrCreateCamera(input.Camera);
-            Audio audio = this.GetOrCreateAudio(input.Audio);
-            WiFi wifi = this.GetOrCreateWiFi(input.WiFi);
-            Lan lan = this.GetOrCreateLan(input.Lan);
-            OpSystem operatingSystem = this.GetOrCreateOperatingSystem(input.OperatingSystem);
-            Battery battery = this.GetOrCreateBattery(input.Battery);
-            Color color = this.GetOrCreateColor(input.Color);
+            Category category = await this.GetOrCreateCategory("Laptop");
+
+            Manufacturer manufacturer = await this.GetOrCreateManufacturer(input.Manufacturer);
+            Purpose purpose = await this.GetOrCreatePurpose(input.Purpose);
+            Processor processor = await this.GetOrCreateProcessor(input.Processor);
+            VideoCard videCard = await this.GetOrCreateVideoCard(input.VideoCard);
+            Memory memory = await this.GetOrCreateMemory(input.Memory);
+            HDD hdd = await this.GetOrCreateHDD(input.HDD);
+            SSD ssd = await this.GetOrCreateSSD(input.SSD);
+            Display display = await this.GetOrCreateDisplay(input.Display);
+            Camera camera = await this.GetOrCreateCamera(input.Camera);
+            Audio audio = await this.GetOrCreateAudio(input.Audio);
+            WiFi wifi = await this.GetOrCreateWiFi(input.WiFi);
+            Lan lan = await this.GetOrCreateLan(input.Lan);
+            OpSystem operatingSystem = await this.GetOrCreateOperatingSystem(input.OperatingSystem);
+            Battery battery = await this.GetOrCreateBattery(input.Battery);
+            Color color = await this.GetOrCreateColor(input.Color);
 
             var laptopPorts = new List<LaptopPort>();
             foreach (var portModel in input.Ports)
             {
-                Port port = this.GetOrCreatePort(portModel.Name);
+                Port port = await this.GetOrCreatePort(portModel.Name);
                 laptopPorts.Add(new LaptopPort { Port = port, Count = portModel.Count });
             }
 
             var keyboardDetails = new List<KeyboardDetail>();
             foreach (var keyboardDetailName in input.KeyboardDetails)
             {
-                KeyboardDetail keyboardDetail = this.GetOrCreateKeyboardDetail(keyboardDetailName);
+                KeyboardDetail keyboardDetail = await this.GetOrCreateKeyboardDetail(keyboardDetailName);
                 keyboardDetails.Add(keyboardDetail);
             }
 
             var extras = new List<Extra>();
             foreach (var extraName in input.Extras)
             {
-                Extra extra = this.GetOrCreateExtra(extraName);
+                Extra extra = await this.GetOrCreateExtra(extraName);
+                extras.Add(extra);
             }
 
             var laptop = new Laptop
             {
                 Name = input.Name,
+                Category = category,
                 Manufacturer = manufacturer,
                 Price = input.Price,
                 Images = input.Images.Select(x => new Image { Url = x }).ToList(),
@@ -172,7 +180,7 @@
         public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
         {
             var laptops = this.laptopRepository.AllAsNoTracking()
-               .OrderBy(x => x.Id)
+               .OrderByDescending(x => x.Id)
                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
                .To<T>().ToList();
             return laptops;
@@ -192,235 +200,286 @@
             return this.laptopRepository.All().Count();
         }
 
-        private Extra GetOrCreateExtra(string extraName)
+        private async Task<Category> GetOrCreateCategory(string categoryName)
         {
-            var extra = this.extraRepository.AllAsNoTracking()
+            var category = this.categoryRepository.All()
+                   .FirstOrDefault(x => x.Name == categoryName);
+
+            if (category is null)
+            {
+                category = new Category { Name = categoryName };
+                await this.categoryRepository.AddAsync(category);
+                await this.categoryRepository.SaveChangesAsync();
+            }
+
+            return category;
+        }
+
+        private async Task<Extra> GetOrCreateExtra(string extraName)
+        {
+            var extra = this.extraRepository.All()
                    .FirstOrDefault(x => x.Name == extraName);
 
             if (extra is null)
             {
                 extra = new Extra { Name = extraName };
+                await this.extraRepository.AddAsync(extra);
+                await this.extraRepository.SaveChangesAsync();
             }
 
             return extra;
         }
 
-        private KeyboardDetail GetOrCreateKeyboardDetail(string keyboardDetailName)
+        private async Task<KeyboardDetail> GetOrCreateKeyboardDetail(string keyboardDetailName)
         {
-            var keyboardDetail = this.keyboardRepository.AllAsNoTracking()
+            var keyboardDetail = this.keyboardRepository.All()
                    .FirstOrDefault(x => x.Name == keyboardDetailName);
 
             if (keyboardDetail is null)
             {
                 keyboardDetail = new KeyboardDetail { Name = keyboardDetailName };
+                await this.keyboardRepository.AddAsync(keyboardDetail);
+                await this.keyboardRepository.SaveChangesAsync();
             }
 
             return keyboardDetail;
         }
 
-        private Port GetOrCreatePort(string portName)
+        private async Task<Port> GetOrCreatePort(string portName)
         {
-            var port = this.portRepository.AllAsNoTracking()
+            var port = this.portRepository.All()
                    .FirstOrDefault(x => x.Name == portName);
 
             if (port is null)
             {
                 port = new Port { Name = portName };
+                await this.portRepository.AddAsync(port);
+                await this.portRepository.SaveChangesAsync();
             }
 
             return port;
         }
 
-        private Color GetOrCreateColor(string colorName)
+        private async Task<Color> GetOrCreateColor(string colorName)
         {
-            var color = this.colorRepository.AllAsNoTracking()
+            var color = this.colorRepository.All()
                    .FirstOrDefault(x => x.Name == colorName);
 
             if (color is null)
             {
                 color = new Color { Name = colorName };
+                await this.colorRepository.AddAsync(color);
+                await this.colorRepository.SaveChangesAsync();
             }
 
             return color;
         }
 
-        private Battery GetOrCreateBattery(string batteryName)
+        private async Task<Battery> GetOrCreateBattery(string batteryName)
         {
-            var battery = this.batteryRepository.AllAsNoTracking()
+            var battery = this.batteryRepository.All()
                    .FirstOrDefault(x => x.Name == batteryName);
 
             if (battery is null)
             {
                 battery = new Battery { Name = batteryName };
+                await this.batteryRepository.AddAsync(battery);
+                await this.batteryRepository.SaveChangesAsync();
             }
 
             return battery;
         }
 
-        private OpSystem GetOrCreateOperatingSystem(string operatingSystemName)
+        private async Task<OpSystem> GetOrCreateOperatingSystem(string operatingSystemName)
         {
-            var operatingSystem = this.operatinSystemRepository.AllAsNoTracking()
+            var operatingSystem = this.operatinSystemRepository.All()
                    .FirstOrDefault(x => x.Name == operatingSystemName);
 
             if (operatingSystem is null)
             {
                 operatingSystem = new OpSystem { Name = operatingSystemName };
+                await this.operatinSystemRepository.AddAsync(operatingSystem);
+                await this.operatinSystemRepository.SaveChangesAsync();
             }
 
             return operatingSystem;
         }
 
-        private Lan GetOrCreateLan(string lanName)
+        private async Task<Lan> GetOrCreateLan(string lanName)
         {
-            var lan = this.lanRepository.AllAsNoTracking()
+            var lan = this.lanRepository.All()
                    .FirstOrDefault(x => x.Name == lanName);
 
             if (lan is null)
             {
                 lan = new Lan { Name = lanName };
+                await this.lanRepository.AddAsync(lan);
+                await this.lanRepository.SaveChangesAsync();
             }
 
             return lan;
         }
 
-        private WiFi GetOrCreateWiFi(string wifiName)
+        private async Task<WiFi> GetOrCreateWiFi(string wifiName)
         {
-            var wifi = this.wifiRepository.AllAsNoTracking()
+            var wifi = this.wifiRepository.All()
                    .FirstOrDefault(x => x.Name == wifiName);
 
             if (wifi is null)
             {
                 wifi = new WiFi { Name = wifiName };
+                await this.wifiRepository.AddAsync(wifi);
+                await this.wifiRepository.SaveChangesAsync();
             }
 
             return wifi;
         }
 
-        private Audio GetOrCreateAudio(string audioName)
+        private async Task<Audio> GetOrCreateAudio(string audioName)
         {
-            var audio = this.audioRepository.AllAsNoTracking()
+            var audio = this.audioRepository.All()
                 .FirstOrDefault(x => x.Name == audioName);
 
             if (audio is null)
             {
                 audio = new Audio { Name = audioName };
+                await this.audioRepository.AddAsync(audio);
+                await this.audioRepository.SaveChangesAsync();
             }
 
             return audio;
         }
 
-        private Camera GetOrCreateCamera(string cameraName)
+        private async Task<Camera> GetOrCreateCamera(string cameraName)
         {
-            var camera = this.cameraRepository.AllAsNoTracking()
+            var camera = this.cameraRepository.All()
                 .FirstOrDefault(x => x.Name == cameraName);
 
             if (camera is null)
             {
                 camera = new Camera { Name = cameraName };
+                await this.cameraRepository.AddAsync(camera);
+                await this.cameraRepository.SaveChangesAsync();
             }
 
             return camera;
         }
 
-        private Display GetOrCreateDisplay(string displayName)
+        private async Task<Display> GetOrCreateDisplay(string displayName)
         {
-            var display = this.displayRepository.AllAsNoTracking()
+            var display = this.displayRepository.All()
                 .FirstOrDefault(x => x.Name == displayName);
 
             if (display is null)
             {
                 display = new Display { Name = displayName };
+                await this.displayRepository.AddAsync(display);
+                await this.displayRepository.SaveChangesAsync();
             }
 
             return display;
         }
 
-        private SSD GetOrCreateSSD(string ssdName)
+        private async Task<SSD> GetOrCreateSSD(string ssdName)
         {
-            var ssd = this.ssdRepository.AllAsNoTracking()
+            var ssd = this.ssdRepository.All()
                 .FirstOrDefault(x => x.Name == ssdName);
 
             if (ssd is null)
             {
                 ssd = new SSD { Name = ssdName };
+                await this.ssdRepository.AddAsync(ssd);
+                await this.ssdRepository.SaveChangesAsync();
             }
 
             return ssd;
         }
 
-        private HDD GetOrCreateHDD(string hddName)
+        private async Task<HDD> GetOrCreateHDD(string hddName)
         {
-            var hdd = this.hddRepository.AllAsNoTracking()
+            var hdd = this.hddRepository.All()
                 .FirstOrDefault(x => x.Name == hddName);
 
             if (hdd is null)
             {
                 hdd = new HDD { Name = hddName };
+                await this.hddRepository.AddAsync(hdd);
+                await this.hddRepository.SaveChangesAsync();
             }
 
             return hdd;
         }
 
-        private Memory GetOrCreateMemory(string memoryName)
+        private async Task<Memory> GetOrCreateMemory(string memoryName)
         {
-            var memory = this.memoryRepository.AllAsNoTracking()
+            var memory = this.memoryRepository.All()
                 .FirstOrDefault(x => x.Name == memoryName);
 
             if (memory is null)
             {
                 memory = new Memory { Name = memoryName };
+                await this.memoryRepository.AddAsync(memory);
+                await this.memoryRepository.SaveChangesAsync();
             }
 
             return memory;
         }
 
-        private VideoCard GetOrCreateVideoCard(string videoCardName)
+        private async Task<VideoCard> GetOrCreateVideoCard(string videoCardName)
         {
-            var videoCard = this.videoCardRepository.AllAsNoTracking()
+            var videoCard = this.videoCardRepository.All()
                 .FirstOrDefault(x => x.Name == videoCardName);
 
             if (videoCard is null)
             {
                 videoCard = new VideoCard { Name = videoCardName };
+                await this.videoCardRepository.AddAsync(videoCard);
+                await this.videoCardRepository.SaveChangesAsync();
             }
 
             return videoCard;
         }
 
-        private Processor GetOrCreateProcessor(string processorName)
+        private async Task<Processor> GetOrCreateProcessor(string processorName)
         {
-            var processor = this.processorRepository.AllAsNoTracking()
+            var processor = this.processorRepository.All()
                 .FirstOrDefault(x => x.Name == processorName);
 
             if (processor is null)
             {
                 processor = new Processor { Name = processorName };
+                await this.processorRepository.AddAsync(processor);
+                await this.processorRepository.SaveChangesAsync();
             }
 
             return processor;
         }
 
-        private Purpose GetOrCreatePurpose(string purposeName)
+        private async Task<Purpose> GetOrCreatePurpose(string purposeName)
         {
-            var purpose = this.purposeRepository.AllAsNoTracking()
+            var purpose = this.purposeRepository.All()
                 .FirstOrDefault(x => x.Name == purposeName);
 
             if (purpose is null)
             {
                 purpose = new Purpose { Name = purposeName };
+                await this.purposeRepository.AddAsync(purpose);
+                await this.purposeRepository.SaveChangesAsync();
             }
 
             return purpose;
         }
 
-        private Manufacturer GetOrCreateManufacturer(string manufacturerName)
+        private async Task<Manufacturer> GetOrCreateManufacturer(string manufacturerName)
         {
-            var manufacturer = this.manufacturerRepository.AllAsNoTracking()
+            var manufacturer = this.manufacturerRepository.All()
                 .FirstOrDefault(x => x.Name == manufacturerName);
 
             if (manufacturer is null)
             {
                 manufacturer = new Manufacturer { Name = manufacturerName };
+                await this.manufacturerRepository.AddAsync(manufacturer);
+                await this.manufacturerRepository.SaveChangesAsync();
             }
 
             return manufacturer;

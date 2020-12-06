@@ -180,10 +180,11 @@
         <span asp-validation-for="Lan" class="text-danger"></span>
     </div>
 
-    <div id="PortsContainer" class="">
+    <div id="PortsContainer" class="form-group">
         <label asp-for="Ports"></label>
-        <button class="btn btn-success" type="button" onclick="addInput(this,'Ports')">Add</button>
+        <button class="btn btn-success" type="button" onclick="addPortInput(this)">Add</button>
         <div class="form-inline form-group">
+
             <input type="number" name="Ports[0].Count" class="form-group form-control input">
             <div class="form-group"> x </div>
             <input type="text" name="Ports[0].Name" list="port" class="form-group form-control input">
@@ -281,13 +282,32 @@
 
 @section Scripts{
     <script>
-        function addInput(x,PropName) {
+        function addInput(x, PropName) {
             var parentNode = x.parentNode;
             var div = parentNode.children[2].cloneNode(true);
             var count = parentNode.children.length - 2;
 
             div.children[0].value = "";
             div.children[0].setAttribute("name", PropName + "[" + count + "]");
+            parentNode.appendChild(div);
+        };
+    </script>
+
+    <script>
+        function addPortInput(x) {
+            var parentNode = x.parentNode;
+            var div = parentNode.children[2].cloneNode(true);
+            var count = parentNode.children.length - 2;
+
+            console.log(div.children[0]);
+            console.log(div.children[2]);
+
+            div.children[0].value = "";
+            div.children[0].setAttribute("name", "Ports[" + count + "].Count");
+
+            div.children[2].value = "";
+            div.children[2].setAttribute("name","Ports[" + count + "].Name");
+
             parentNode.appendChild(div);
         };
     </script>

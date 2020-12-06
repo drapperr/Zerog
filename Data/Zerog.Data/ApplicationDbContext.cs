@@ -24,8 +24,6 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
-
         public DbSet<Laptop> Laptops { get; set; }
 
         public DbSet<Audio> Audios { get; set; }
@@ -63,6 +61,10 @@
         public DbSet<VideoCard> VideoCards { get; set; }
 
         public DbSet<WiFi> WiFis { get; set; }
+
+        public DbSet<Cart> Carts { get; set; }
+
+        public DbSet<CartItem> CartItems { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
