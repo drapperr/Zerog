@@ -10,7 +10,7 @@ using Zerog.Data;
 namespace Zerog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201206090307_InitialCreate")]
+    [Migration("20201210070855_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -275,76 +275,6 @@ namespace Zerog.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Zerog.Data.Models.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ShoppingCarts");
-                });
-
-            modelBuilder.Entity("Zerog.Data.Models.CartItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LaptopId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("LaptopId");
-
-                    b.ToTable("ProductCounts");
-                });
-
             modelBuilder.Entity("Zerog.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -373,6 +303,34 @@ namespace Zerog.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Zerog.Data.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LaptopId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LaptopId");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Audio", b =>
@@ -590,34 +548,6 @@ namespace Zerog.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("HDDs");
-                });
-
-            modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LaptopId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LaptopId");
-
-                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Zerog.Data.Models.LaptopModels.KeyboardDetail", b =>
@@ -842,37 +772,6 @@ namespace Zerog.Data.Migrations
                     b.HasIndex("PortId");
 
                     b.ToTable("LaptopPort");
-                });
-
-            modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Manufacturer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Manufacturers");
                 });
 
             modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Memory", b =>
@@ -1123,6 +1022,110 @@ namespace Zerog.Data.Migrations
                     b.ToTable("WiFis");
                 });
 
+            modelBuilder.Entity("Zerog.Data.Models.Manufacturer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Manufacturers");
+                });
+
+            modelBuilder.Entity("Zerog.Data.Models.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("Zerog.Data.Models.ShoppingCartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LaptopId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShoppingCartId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LaptopId");
+
+                    b.HasIndex("ShoppingCartId");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("ExtraLaptop", b =>
                 {
                     b.HasOne("Zerog.Data.Models.LaptopModels.Extra", null)
@@ -1204,35 +1207,7 @@ namespace Zerog.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Zerog.Data.Models.Cart", b =>
-                {
-                    b.HasOne("Zerog.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Zerog.Data.Models.CartItem", b =>
-                {
-                    b.HasOne("Zerog.Data.Models.Cart", "Cart")
-                        .WithMany("Items")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Zerog.Data.Models.LaptopModels.Laptop", "Laptop")
-                        .WithMany()
-                        .HasForeignKey("LaptopId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Laptop");
-                });
-
-            modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Image", b =>
+            modelBuilder.Entity("Zerog.Data.Models.Image", b =>
                 {
                     b.HasOne("Zerog.Data.Models.LaptopModels.Laptop", "Laptop")
                         .WithMany("Images")
@@ -1293,7 +1268,7 @@ namespace Zerog.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Zerog.Data.Models.LaptopModels.Manufacturer", "Manufacturer")
+                    b.HasOne("Zerog.Data.Models.Manufacturer", "Manufacturer")
                         .WithMany("Laptops")
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1393,6 +1368,32 @@ namespace Zerog.Data.Migrations
                     b.Navigation("Port");
                 });
 
+            modelBuilder.Entity("Zerog.Data.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("Zerog.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Zerog.Data.Models.ShoppingCartItem", b =>
+                {
+                    b.HasOne("Zerog.Data.Models.LaptopModels.Laptop", "Laptop")
+                        .WithMany()
+                        .HasForeignKey("LaptopId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Zerog.Data.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany("Items")
+                        .HasForeignKey("ShoppingCartId");
+
+                    b.Navigation("Laptop");
+
+                    b.Navigation("ShoppingCart");
+                });
+
             modelBuilder.Entity("Zerog.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Claims");
@@ -1400,11 +1401,6 @@ namespace Zerog.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
-                });
-
-            modelBuilder.Entity("Zerog.Data.Models.Cart", b =>
-                {
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("Zerog.Data.Models.Category", b =>
@@ -1454,11 +1450,6 @@ namespace Zerog.Data.Migrations
                     b.Navigation("Ports");
                 });
 
-            modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Manufacturer", b =>
-                {
-                    b.Navigation("Laptops");
-                });
-
             modelBuilder.Entity("Zerog.Data.Models.LaptopModels.Memory", b =>
                 {
                     b.Navigation("Laptops");
@@ -1497,6 +1488,16 @@ namespace Zerog.Data.Migrations
             modelBuilder.Entity("Zerog.Data.Models.LaptopModels.WiFi", b =>
                 {
                     b.Navigation("Laptops");
+                });
+
+            modelBuilder.Entity("Zerog.Data.Models.Manufacturer", b =>
+                {
+                    b.Navigation("Laptops");
+                });
+
+            modelBuilder.Entity("Zerog.Data.Models.ShoppingCart", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

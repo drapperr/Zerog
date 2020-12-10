@@ -62,9 +62,9 @@
 
         public DbSet<WiFi> WiFis { get; set; }
 
-        public DbSet<Cart> Carts { get; set; }
+        public DbSet<ShoppingCart> Carts { get; set; }
 
-        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<ShoppingCartItem> CartItems { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

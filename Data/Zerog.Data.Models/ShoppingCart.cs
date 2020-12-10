@@ -4,17 +4,17 @@
 
     using Zerog.Data.Common.Models;
 
-    public class Cart : BaseDeletableModel<int>
+    public class ShoppingCart : BaseDeletableModel<int>
     {
-        public Cart()
+        public ShoppingCart()
         {
-            this.Items = new HashSet<CartItem>();
+            this.Items = new HashSet<ShoppingCartItem>();
         }
 
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 
-        public virtual ICollection<CartItem> Items { get; set; }
+        public virtual ICollection<ShoppingCartItem> Items { get; set; }
     }
 }

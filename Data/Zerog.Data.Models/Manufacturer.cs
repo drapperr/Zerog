@@ -1,9 +1,10 @@
-﻿namespace Zerog.Data.Models.LaptopModels
+﻿namespace Zerog.Data.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Zerog.Data.Common.Models;
+    using Zerog.Data.Models.LaptopModels;
 
     public class Manufacturer : BaseDeletableModel<int>
     {

@@ -484,7 +484,7 @@ namespace Zerog.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShoppingCarts",
+                name: "Carts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -497,9 +497,9 @@ namespace Zerog.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
+                    table.PrimaryKey("PK_Carts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShoppingCarts_AspNetUsers_UserId",
+                        name: "FK_Carts_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -513,10 +513,10 @@ namespace Zerog.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ManufacturerId = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Discount = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ManufacturerId = table.Column<int>(type: "int", nullable: false),
                     PurposeId = table.Column<int>(type: "int", nullable: false),
                     ProcessorId = table.Column<int>(type: "int", nullable: false),
                     VideoCardId = table.Column<int>(type: "int", nullable: false),
@@ -642,6 +642,38 @@ namespace Zerog.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CartItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LaptopId = table.Column<int>(type: "int", nullable: false),
+                    CartId = table.Column<int>(type: "int", nullable: false),
+                    ShoppingCartId = table.Column<int>(type: "int", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Carts_ShoppingCartId",
+                        column: x => x.ShoppingCartId,
+                        principalTable: "Carts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Laptops_LaptopId",
+                        column: x => x.LaptopId,
+                        principalTable: "Laptops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExtraLaptop",
                 columns: table => new
                 {
@@ -740,37 +772,6 @@ namespace Zerog.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ProductCounts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    LaptopId = table.Column<int>(type: "int", nullable: false),
-                    CartId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductCounts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductCounts_Laptops_LaptopId",
-                        column: x => x.LaptopId,
-                        principalTable: "Laptops",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProductCounts_ShoppingCarts_CartId",
-                        column: x => x.CartId,
-                        principalTable: "ShoppingCarts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -834,6 +835,31 @@ namespace Zerog.Data.Migrations
                 name: "IX_Cameras_IsDeleted",
                 table: "Cameras",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItems_IsDeleted",
+                table: "CartItems",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItems_LaptopId",
+                table: "CartItems",
+                column: "LaptopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItems_ShoppingCartId",
+                table: "CartItems",
+                column: "ShoppingCartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carts_IsDeleted",
+                table: "Carts",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carts_UserId",
+                table: "Carts",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Category_IsDeleted",
@@ -1006,34 +1032,9 @@ namespace Zerog.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCounts_CartId",
-                table: "ProductCounts",
-                column: "CartId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCounts_IsDeleted",
-                table: "ProductCounts",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCounts_LaptopId",
-                table: "ProductCounts",
-                column: "LaptopId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Purposes_IsDeleted",
                 table: "Purposes",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCarts_IsDeleted",
-                table: "ShoppingCarts",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCarts_UserId",
-                table: "ShoppingCarts",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SSDs_IsDeleted",
@@ -1069,6 +1070,9 @@ namespace Zerog.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CartItems");
+
+            migrationBuilder.DropTable(
                 name: "ExtraLaptop");
 
             migrationBuilder.DropTable(
@@ -1081,10 +1085,10 @@ namespace Zerog.Data.Migrations
                 name: "LaptopPort");
 
             migrationBuilder.DropTable(
-                name: "ProductCounts");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Extras");
@@ -1093,13 +1097,13 @@ namespace Zerog.Data.Migrations
                 name: "KeyboardDetails");
 
             migrationBuilder.DropTable(
-                name: "Ports");
-
-            migrationBuilder.DropTable(
                 name: "Laptops");
 
             migrationBuilder.DropTable(
-                name: "ShoppingCarts");
+                name: "Ports");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Audios");
@@ -1148,9 +1152,6 @@ namespace Zerog.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "WiFis");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

@@ -1,22 +1,20 @@
 ﻿namespace Zerog.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Zerog.Data.Common.Repositories;
     using Zerog.Data.Models;
-    using Zerog.Services.Mapping;
     using Zerog.Web.ViewModels.Laptops;
 
     public class ShoppingCartService : IShoppingCartService
     {
-        private readonly IDeletableEntityRepository<Cart> cartRepository;
-        private readonly IDeletableEntityRepository<CartItem> cartItemRepository;
+        private readonly IDeletableEntityRepository<ShoppingCart> cartRepository;
+        private readonly IDeletableEntityRepository<ShoppingCartItem> cartItemRepository;
 
         public ShoppingCartService(
-            IDeletableEntityRepository<Cart> shoppingCardRepository,
-            IDeletableEntityRepository<CartItem> productCoutnRepository)
+            IDeletableEntityRepository<ShoppingCart> shoppingCardRepository,
+            IDeletableEntityRepository<ShoppingCartItem> productCoutnRepository)
         {
             this.cartRepository = shoppingCardRepository;
             this.cartItemRepository = productCoutnRepository;
@@ -28,7 +26,7 @@
 
             if (cart is null)
             {
-                var newShoppingCart = new Cart
+                var newShoppingCart = new ShoppingCart
                 {
                     UserId = userId,
                 };
@@ -40,11 +38,11 @@
             }
 
             var item = this.cartItemRepository.All()
-                .FirstOrDefault(x => x.LaptopId == productId && x.Cart == cart);
+                .FirstOrDefault(x => x.LaptopId == productId && x.ShoppingCart == cart);
 
             if (item is null)
             {
-                item = new CartItem
+                item = new ShoppingCartItem
                 {
                     LaptopId = productId,
                     CartId = cart.Id,
