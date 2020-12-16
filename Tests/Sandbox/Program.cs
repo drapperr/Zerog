@@ -53,8 +53,8 @@
         {
             var sw = Stopwatch.StartNew();
 
-            var laptopImporter = serviceProvider.GetService<IArdesBgScraperService>();
-            await laptopImporter.ImportRecipesAsync();
+            var productImporter = serviceProvider.GetService<IArdesBgScraperService>();
+            await productImporter.ImportPorductsAsync();
 
             Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);

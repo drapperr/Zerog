@@ -1,5 +1,4 @@
-﻿@model Zerog.Web.ViewModels.Laptops.ShoppingCartViewModel
-
+﻿@model Zerog.Web.ViewModels.Products.ShoppingCartViewModel
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
@@ -20,8 +19,9 @@
                         @foreach (var item in Model.Items)
                         {
                             <div class="order-col">
+                                <a class="btn btn-primary btn-warning" asp-action="Delete" asp-route-id="@item.Id">-</a>
                                 <div>@item.Quantity x @item.Name</div>
-                                <div>$@item.Price</div>
+                                <div>$@item.Price.ToString("F")</div>
                             </div>
                         }
                     </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="order-col">
                         <div><strong>TOTAL</strong></div>
-                        <div><strong class="order-total">$@Model.Total</strong></div>
+                        <div><strong class="order-total">$@Model.Total.ToString("F")</strong></div>
                     </div>
                 </div>
                 <div class="payment-method">

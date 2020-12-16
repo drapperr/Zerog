@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Zerog.Services.Data;
-    using Zerog.Web.ViewModels.Laptops;
+    using Zerog.Web.ViewModels.Products;
 
     public class ShoppingCartsController : BaseController
     {
@@ -28,13 +28,23 @@
         }
 
         [Authorize]
-        public IActionResult MyCart(int id)
+        public async Task<IActionResult> MyCart()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var cart = this.shoppingCartService.GetByUserId(userId);
+            var cart = await this.shoppingCartService.GetByUserId(userId);
 
             return this.View(cart);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            await this.shoppingCartService.DeleteItem(userId, id);
+
+            return this.Redirect("/ShoppingCarts/MyCart");
         }
     }
 }

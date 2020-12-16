@@ -4,19 +4,19 @@
     using System.ComponentModel.DataAnnotations;
 
     using Zerog.Data.Common.Models;
-    using Zerog.Data.Models.LaptopModels;
+    using Zerog.Data.Models.ProductModels;
 
     public class Manufacturer : BaseDeletableModel<int>
     {
         public Manufacturer()
         {
-            this.Laptops = new HashSet<Laptop>();
+            this.Products = new HashSet<Product>();
         }
 
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public virtual ICollection<Laptop> Laptops { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

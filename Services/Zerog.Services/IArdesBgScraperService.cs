@@ -4,6 +4,6 @@
 
     public interface IArdesBgScraperService
     {
-        Task ImportRecipesAsync();
+        Task ImportPorductsAsync();
     }
 }

@@ -4,7 +4,7 @@
 
     using Zerog.Data.Common.Models;
 
-    public class ShoppingCart : BaseDeletableModel<int>
+    public class ShoppingCart : BaseModel<int>
     {
         public ShoppingCart()
         {

@@ -5,77 +5,109 @@
 
     using Zerog.Data.Common.Repositories;
     using Zerog.Data.Models;
-    using Zerog.Web.ViewModels.Laptops;
+    using Zerog.Web.ViewModels.Products;
 
     public class ShoppingCartService : IShoppingCartService
     {
-        private readonly IDeletableEntityRepository<ShoppingCart> cartRepository;
-        private readonly IDeletableEntityRepository<ShoppingCartItem> cartItemRepository;
+        private readonly IRepository<ShoppingCart> shoppingCardRepository;
+        private readonly IRepository<ShoppingCartItem> productCoutnRepository;
 
         public ShoppingCartService(
-            IDeletableEntityRepository<ShoppingCart> shoppingCardRepository,
-            IDeletableEntityRepository<ShoppingCartItem> productCoutnRepository)
+            IRepository<ShoppingCart> shoppingCardRepository,
+            IRepository<ShoppingCartItem> productCoutnRepository)
         {
-            this.cartRepository = shoppingCardRepository;
-            this.cartItemRepository = productCoutnRepository;
+            this.shoppingCardRepository = shoppingCardRepository;
+            this.productCoutnRepository = productCoutnRepository;
         }
 
         public async Task AddProductAsync(string userId, int productId)
         {
-            var cart = this.cartRepository.All().FirstOrDefault(x => x.UserId == userId);
+            var shoppingCart = this.shoppingCardRepository.All().FirstOrDefault(x => x.UserId == userId);
 
-            if (cart is null)
+            if (shoppingCart is null)
             {
                 var newShoppingCart = new ShoppingCart
                 {
                     UserId = userId,
                 };
 
-                await this.cartRepository.AddAsync(newShoppingCart);
-                await this.cartRepository.SaveChangesAsync();
+                await this.shoppingCardRepository.AddAsync(newShoppingCart);
+                await this.shoppingCardRepository.SaveChangesAsync();
 
-                cart = newShoppingCart;
+                shoppingCart = newShoppingCart;
             }
 
-            var item = this.cartItemRepository.All()
-                .FirstOrDefault(x => x.LaptopId == productId && x.ShoppingCart == cart);
+            var item = this.productCoutnRepository.All()
+                .FirstOrDefault(x => x.ProductId == productId && x.ShoppingCart == shoppingCart);
 
             if (item is null)
             {
                 item = new ShoppingCartItem
                 {
-                    LaptopId = productId,
-                    CartId = cart.Id,
+                    ProductId = productId,
+                    ShoppingCartId = shoppingCart.Id,
                     Quantity = 1,
                 };
 
-                await this.cartItemRepository.AddAsync(item);
+                await this.productCoutnRepository.AddAsync(item);
             }
             else
             {
                 item.Quantity++;
             }
 
-            await this.cartItemRepository.SaveChangesAsync();
+            await this.productCoutnRepository.SaveChangesAsync();
         }
 
-        public ShoppingCartViewModel GetByUserId(string id)
+        public async Task<ShoppingCartViewModel> GetByUserId(string id)
         {
-            return this.cartRepository.All()
-                .Where(x => x.UserId == id)
-                .Select(x => new ShoppingCartViewModel
+            var shoppingCart = this.shoppingCardRepository.All().FirstOrDefault(x => x.UserId == id);
+
+            if (shoppingCart is null)
+            {
+                var newShoppingCart = new ShoppingCart
+                {
+                    UserId = id,
+                };
+
+                await this.shoppingCardRepository.AddAsync(newShoppingCart);
+                await this.shoppingCardRepository.SaveChangesAsync();
+
+                shoppingCart = newShoppingCart;
+            }
+
+            return this.shoppingCardRepository.All()
+                .Where(x => x.UserId == id).Select(x => new ShoppingCartViewModel
                 {
                     Items = x.Items
-                    .Select(y => new LaptopInCartViewModel
+                    .Select(y => new ProductInCartViewModel
                     {
-                        Id = y.Laptop.Id,
-                        Name = y.Laptop.Name,
-                        Price = y.Laptop.Price,
-                        Discount = y.Laptop.Discount,
+                        Id = y.Id,
+                        Name = y.Product.Name,
+                        Price = y.Product.Discount == null ? y.Product.Price * y.Quantity : (y.Product.Price - (y.Product.Price * ((decimal)y.Product.Discount / 100))) * y.Quantity,
                         Quantity = y.Quantity,
                     }).ToList(),
-                    Total = x.Items.Sum(x => x.Laptop.Price * x.Quantity),
+                    Total = x.Items.Sum(x => x.Product.Price * x.Quantity),
                 }).FirstOrDefault();
+        }
+
+        public async Task DeleteItem(string userId, int itemId)
+        {
+            var shoppingCart = this.shoppingCardRepository.All().FirstOrDefault(x => x.UserId == userId);
+
+            var item = this.productCoutnRepository.All()
+                .FirstOrDefault(x => x.ShoppingCart == shoppingCart && x.Id == itemId);
+
+            if (item.Quantity == 1)
+            {
+                this.productCoutnRepository.Delete(item);
+            }
+            else
+            {
+                item.Quantity -= 1;
+            }
+
+            await this.productCoutnRepository.SaveChangesAsync();
         }
     }
 }

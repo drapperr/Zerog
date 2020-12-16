@@ -10,7 +10,7 @@
     using Microsoft.EntityFrameworkCore;
     using Zerog.Data.Common.Models;
     using Zerog.Data.Models;
-    using Zerog.Data.Models.LaptopModels;
+    using Zerog.Data.Models.ProductModels;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -24,47 +24,25 @@
         {
         }
 
-        public DbSet<Laptop> Laptops { get; set; }
+        public DbSet<Product> Products { get; set; }
 
-        public DbSet<Audio> Audios { get; set; }
+        public DbSet<Specificaton> Specificatons { get; set; }
 
-        public DbSet<Battery> Batteries { get; set; }
+        public DbSet<SpecificatonInfo> SpecificatonInfos { get; set; }
 
-        public DbSet<Camera> Cameras { get; set; }
-
-        public DbSet<Color> Colors { get; set; }
-
-        public DbSet<Display> Displays { get; set; }
-
-        public DbSet<Extra> Extras { get; set; }
-
-        public DbSet<HDD> HDDs { get; set; }
+        public DbSet<ProductSpecification> ProductSpecifications { get; set; }
 
         public DbSet<Image> Images { get; set; }
 
-        public DbSet<KeyboardDetail> KeyboardDetails { get; set; }
-
         public DbSet<Manufacturer> Manufacturers { get; set; }
 
-        public DbSet<Memory> Memories { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
-        public DbSet<OpSystem> OperatingSystems { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
-        public DbSet<Port> Ports { get; set; }
+        public DbSet<Order> Order { get; set; }
 
-        public DbSet<Processor> Processors { get; set; }
-
-        public DbSet<Purpose> Purposes { get; set; }
-
-        public DbSet<SSD> SSDs { get; set; }
-
-        public DbSet<VideoCard> VideoCards { get; set; }
-
-        public DbSet<WiFi> WiFis { get; set; }
-
-        public DbSet<ShoppingCart> Carts { get; set; }
-
-        public DbSet<ShoppingCartItem> CartItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

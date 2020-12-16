@@ -2,12 +2,14 @@
 {
     using System.Threading.Tasks;
 
-    using Zerog.Web.ViewModels.Laptops;
+    using Zerog.Web.ViewModels.Products;
 
     public interface IShoppingCartService
     {
         Task AddProductAsync(string userId, int productId);
 
-        ShoppingCartViewModel GetByUserId(string id);
+        Task<ShoppingCartViewModel> GetByUserId(string id);
+
+        Task DeleteItem(string userId, int itemId);
     }
 }
