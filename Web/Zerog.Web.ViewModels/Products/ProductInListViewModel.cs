@@ -19,7 +19,7 @@
 
         public int? Discount { get; set; }
 
-        public decimal NewPrice => this.Discount == null ? this.Price : this.Price - (this.Price * ((decimal)this.Discount / 100));
+        public decimal NewPrice { get; set; }
 
         public string CategoryName { get; set; }
 

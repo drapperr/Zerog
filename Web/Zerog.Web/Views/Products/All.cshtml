@@ -188,10 +188,10 @@
                                         <p class="product-category">@product.CategoryName</p>
                                         <h3 class="product-name"><a asp-action="ById" asp-route-id="@product.Id">@product.Name</a></h3>
                                         <h4 class="product-price">
-                                            $@product.NewPrice
+                                            $@product.NewPrice.ToString("F")
                                             @if (product.Discount != null)
                                             {
-                                                <del class="product-old-price">$@product.Price</del>
+                                                <del class="product-old-price">$@product.Price.ToString("F")</del>
                                             }
                                         </h4>
                                         <div class="product-rating">

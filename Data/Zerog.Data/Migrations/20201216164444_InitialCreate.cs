@@ -216,6 +216,7 @@ namespace Zerog.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     OrderStatus = table.Column<int>(type: "int", nullable: false),
                     PaymentMethod = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),

@@ -1,8 +1,13 @@
 ﻿namespace Zerog.Web.ViewModels.Products
 {
     using System.Collections.Generic;
+    using System.Linq;
 
-    public class ShoppingCartViewModel
+    using AutoMapper;
+    using Zerog.Data.Models;
+    using Zerog.Services.Mapping;
+
+    public class ShoppingCartViewModel : IMapFrom<ShoppingCart>
     {
         public ShoppingCartViewModel()
         {
@@ -11,6 +16,6 @@
 
         public ICollection<ProductInCartViewModel> Items { get; set; }
 
-        public decimal Total { get; set; }
+        public decimal Total => this.Items.Sum(x => x.ProductNewPrice * x.Quantity);
     }
 }

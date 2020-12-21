@@ -30,6 +30,8 @@
 
         public ICollection<string> Images { get; set; }
 
+        public string Description { get; set; }
+
         public Dictionary<string, List<string>> Specificatons { get; set; }
     }
 }

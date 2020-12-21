@@ -5,7 +5,7 @@
 
     using Zerog.Data.Common.Repositories;
     using Zerog.Data.Models;
-    using Zerog.Web.ViewModels.Products;
+    using Zerog.Services.Mapping;
 
     public class ShoppingCartService : IShoppingCartService
     {
@@ -59,7 +59,7 @@
             await this.productCoutnRepository.SaveChangesAsync();
         }
 
-        public async Task<ShoppingCartViewModel> GetByUserId(string id)
+        public async Task<T> GetByUserId<T>(string id)
         {
             var shoppingCart = this.shoppingCardRepository.All().FirstOrDefault(x => x.UserId == id);
 
@@ -76,19 +76,10 @@
                 shoppingCart = newShoppingCart;
             }
 
-            return this.shoppingCardRepository.All()
-                .Where(x => x.UserId == id).Select(x => new ShoppingCartViewModel
-                {
-                    Items = x.Items
-                    .Select(y => new ProductInCartViewModel
-                    {
-                        Id = y.Id,
-                        Name = y.Product.Name,
-                        Price = y.Product.Discount == null ? y.Product.Price * y.Quantity : (y.Product.Price - (y.Product.Price * ((decimal)y.Product.Discount / 100))) * y.Quantity,
-                        Quantity = y.Quantity,
-                    }).ToList(),
-                    Total = x.Items.Sum(x => x.Product.Price * x.Quantity),
-                }).FirstOrDefault();
+            var viewModel = this.shoppingCardRepository.All()
+                .Where(x => x.UserId == id).To<T>().FirstOrDefault();
+
+            return viewModel;
         }
 
         public async Task DeleteItem(string userId, int itemId)

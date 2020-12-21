@@ -13,7 +13,7 @@
 
         public int? Discount { get; set; }
 
-        public decimal NewPrice => this.Discount == null ? this.Price : this.Price - (this.Price * ((decimal)this.Discount / 100));
+        public decimal NewPrice { get; set; }
 
         public string Category { get; set; }
 
@@ -25,7 +25,8 @@
 
         public ICollection<string> Images { get; set; }
 
-        public Dictionary<string, List<string>> Specificatons { get; set; }
+        public string Description { get; set; }
 
+        public Dictionary<string, List<string>> Specificatons { get; set; }
     }
 }

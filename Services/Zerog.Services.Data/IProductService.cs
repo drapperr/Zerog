@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
     using Zerog.Services.Data.Models;
 
     public interface IProductService
@@ -14,5 +13,7 @@
         int GetCount();
 
         SingleProductDto GetById(int id);
+
+        ProductPartsDto GetProductParts();
     }
 }

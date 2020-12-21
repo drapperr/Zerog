@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Zerog.Data.Models\Zerog.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Services\Zerog.Services.Data\Zerog.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\Zerog.Services.Mapping\Zerog.Services.Mapping.csproj" />
   </ItemGroup>
 

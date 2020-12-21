@@ -5,6 +5,7 @@
 
     using Microsoft.AspNetCore.Mvc;
     using Zerog.Services.Data;
+    using Zerog.Services.Data.Models;
     using Zerog.Web.ViewModels.Products;
 
     public class ProductsController : BaseController
@@ -18,14 +19,84 @@
 
         public IActionResult Create()
         {
-            var inputModel = new CreateProductInputModel { };
+            var productPartsDto = this.productService.GetProductParts();
+            var productParts = new ProductPartsInputModel
+            {
+                Categories = productPartsDto.Categories,
+                Manufacturers = productPartsDto.Manufacturers,
+                Specifications = productPartsDto.Specifications,
+            };
+
+            var inputModel = new CreateProductInputModel
+            {
+                ProductParts = productParts,
+            };
+
             return this.View(inputModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductInputModel input)
         {
-            // await this.productService.CreateAsync(input);
+            var createProductDto = new CreateProductDto
+            {
+                Name = input.Name,
+                Price = input.Price,
+                Discount = input.Discount,
+                Category = input.Category,
+                Manufacturer = input.Manufacturer,
+                Description = input.Description,
+                Images = input.Images,
+                ProductSpecifications = input.ProductSpecifications,
+            };
+            await this.productService.CreateAsync(createProductDto);
+            return this.Redirect("/");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var productPartsDto = this.productService.GetProductParts();
+            var productParts = new ProductPartsInputModel
+            {
+                Categories = productPartsDto.Categories,
+                Manufacturers = productPartsDto.Manufacturers,
+                Specifications = productPartsDto.Specifications,
+            };
+
+            var product = this.productService.GetById(id);
+
+            var inputModel = new CreateProductInputModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Discount = product.Discount,
+                Category = product.Category,
+                Manufacturer = product.Manufacturer,
+                Images = product.Images,
+                Description = product.Description,
+                ProductSpecifications = product.Specificatons,
+                ProductParts = productParts,
+            };
+
+            return this.View(inputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CreateProductInputModel input)
+        {
+            var createProductDto = new CreateProductDto
+            {
+                Name = input.Name,
+                Price = input.Price,
+                Discount = input.Discount,
+                Category = input.Category,
+                Manufacturer = input.Manufacturer,
+                Description = input.Description,
+                Images = input.Images,
+                ProductSpecifications = input.ProductSpecifications,
+            };
+            await this.productService.CreateAsync(createProductDto);
             return this.Redirect("/");
         }
 
@@ -62,6 +133,7 @@
                 Category = product.Category,
                 Images = product.Images,
                 IsNew = product.IsNew,
+                Description = product.Description,
                 Manufacturer = product.Manufacturer,
                 Specificatons = product.Specificatons,
             };

@@ -4,6 +4,6 @@
 
     public interface IOrdersService
     {
-        Task Add(string userId, int cardId);
+        Task Add(string userId);
     }
 }

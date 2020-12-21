@@ -21,7 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Zerog.Data.Common\Zerog.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\Zerog.Data.Models\Zerog.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Web\Zerog.Web.ViewModels\Zerog.Web.ViewModels.csproj" />
     <ProjectReference Include="..\Zerog.Services.Mapping\Zerog.Services.Mapping.csproj" />
   </ItemGroup>
 

@@ -21,6 +21,8 @@
 
         public int? Discount { get; set; }
 
+        public decimal NewPrice => this.Discount == null ? this.Price : (this.Price - (this.Price * ((decimal)this.Discount / 100)));
+
         public int CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
@@ -33,6 +35,6 @@
 
         public virtual ICollection<ProductSpecification> ProductSpecifications { get; set; }
 
-        public string Decription { get; set; }
+        public string Description { get; set; }
     }
 }

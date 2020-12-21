@@ -41,8 +41,6 @@
             var json = File.ReadAllText("C:/Users/User/OneDrive/Desktop/Projects/ArdesScraper/ArdesScraper/JsonsData/products.json");
             var productModels = JsonConvert.DeserializeObject<List<ProductDtoModel>>(json);
 
-            productModels.Reverse();
-
             foreach (var product in productModels)
             {
                 await this.AddAsync(product);

@@ -5,5 +5,7 @@
     public interface ISpecificationService
     {
         Dictionary<string, List<string>> GetAllByProductId(int id);
+
+        Dictionary<string, List<string>> GetAll();
     }
 }

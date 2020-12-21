@@ -4,54 +4,24 @@
 
     public class CreateProductInputModel
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
 
-        public string Manufacturer { get; set; }
+        public string Name { get; set; }
 
         public decimal Price { get; set; }
 
+        public int? Discount { get; set; }
+
+        public string Category { get; set; }
+
+        public string Manufacturer { get; set; }
+
         public ICollection<string> Images { get; set; }
 
-        public string Purpose { get; set; }
+        public Dictionary<string, List<string>> ProductSpecifications { get; set; }
 
-        public string Processor { get; set; }
+        public string Description { get; set; }
 
-        public string VideoCard { get; set; }
-
-        public string Memory { get; set; }
-
-        public int MemorySlots { get; set; }
-
-        public string HDD { get; set; }
-
-        public string SSD { get; set; }
-
-        public string Display { get; set; }
-
-        public string Camera { get; set; }
-
-        public string Audio { get; set; }
-
-        public bool OpticalDevice { get; set; }
-
-        public string WiFi { get; set; }
-
-        public string Lan { get; set; }
-
-        public ICollection<string> KeyboardDetails { get; set; }
-
-        public ICollection<string> Extras { get; set; }
-
-        public string OperatingSystem { get; set; }
-
-        public string Battery { get; set; }
-
-        public double Weight { get; set; }
-
-        public string Demensions { get; set; }
-
-        public string Color { get; set; }
-
-        public LaptopPartsViewModel Parts { get; set; }
+        public ProductPartsInputModel ProductParts { get; set; }
     }
 }

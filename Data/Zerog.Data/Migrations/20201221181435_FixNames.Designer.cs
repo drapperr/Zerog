@@ -10,8 +10,8 @@ using Zerog.Data;
 namespace Zerog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201216094223_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201221181435_FixNames")]
+    partial class FixNames
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -360,6 +360,9 @@ namespace Zerog.Data.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -391,8 +394,14 @@ namespace Zerog.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -424,11 +433,11 @@ namespace Zerog.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Decription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Discount")
                         .HasColumnType("int");

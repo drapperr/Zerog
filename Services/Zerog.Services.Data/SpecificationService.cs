@@ -39,5 +39,29 @@
 
             return dictionary;
         }
+
+        public Dictionary<string, List<string>> GetAll()
+        {
+            var result = this.productSpecificationRepository.All()
+                .Select(x => new
+                {
+                    SpecificationName = x.Specificaton.Name,
+                    SpecificatonInfo = x.SpecificatonInfo.Name,
+                }).ToList();
+
+            var dictionary = new Dictionary<string, List<string>>();
+
+            foreach (var item in result)
+            {
+                if (!dictionary.ContainsKey(item.SpecificationName))
+                {
+                    dictionary.Add(item.SpecificationName, new List<string>());
+                }
+
+                dictionary[item.SpecificationName].Add(item.SpecificatonInfo);
+            }
+
+            return dictionary;
+        }
     }
 }

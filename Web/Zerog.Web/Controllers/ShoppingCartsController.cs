@@ -1,8 +1,8 @@
 ﻿namespace Zerog.Web.Controllers
 {
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Zerog.Services.Data;
@@ -32,7 +32,7 @@
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var cart = await this.shoppingCartService.GetByUserId(userId);
+            var cart = await this.shoppingCartService.GetByUserId<ShoppingCartViewModel>(userId);
 
             return this.View(cart);
         }

@@ -19,9 +19,12 @@
 
         public virtual ICollection<OrderItem> Items { get; set; }
 
+        public decimal Total { get; set; }
+
         public int OrderStatus { get; set; }
 
         [MaxLength(450)]
         public string PaymentMethod { get; set; }
+
     }
 }
