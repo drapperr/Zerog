@@ -36,4 +36,8 @@
     <ProjectReference Include="..\Zerog.Web.Infrastructure\Zerog.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\Zerog.Web.ViewModels\Zerog.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Views\Products\" />
+  </ItemGroup>
 </Project>

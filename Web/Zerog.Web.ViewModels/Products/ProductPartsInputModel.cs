@@ -2,10 +2,9 @@
 {
     using System.Collections.Generic;
 
-    using Zerog.Services.Data.Models;
     using Zerog.Services.Mapping;
 
-    public class ProductPartsInputModel : IMapFrom<ProductPartsDto>
+    public class ProductPartsInputModel
     {
         public ICollection<string> Manufacturers { get; set; }
 

@@ -5,7 +5,6 @@
 
     using Microsoft.AspNetCore.Mvc;
     using Zerog.Services.Data;
-    using Zerog.Services.Data.Models;
     using Zerog.Web.ViewModels.Products;
 
     public class ProductsController : BaseController
@@ -38,18 +37,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductInputModel input)
         {
-            var createProductDto = new CreateProductDto
-            {
-                Name = input.Name,
-                Price = input.Price,
-                Discount = input.Discount,
-                Category = input.Category,
-                Manufacturer = input.Manufacturer,
-                Description = input.Description,
-                Images = input.Images,
-                ProductSpecifications = input.ProductSpecifications,
-            };
-            await this.productService.CreateAsync(createProductDto);
+            await this.productService.CreateAsync(input);
             return this.Redirect("/");
         }
 
@@ -83,20 +71,15 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CreateProductInputModel input)
+        public async Task<IActionResult> Edit(int id, CreateProductInputModel input)
         {
-            var createProductDto = new CreateProductDto
-            {
-                Name = input.Name,
-                Price = input.Price,
-                Discount = input.Discount,
-                Category = input.Category,
-                Manufacturer = input.Manufacturer,
-                Description = input.Description,
-                Images = input.Images,
-                ProductSpecifications = input.ProductSpecifications,
-            };
-            await this.productService.CreateAsync(createProductDto);
+            await this.productService.UpdateAsync(id, input);
+            return this.Redirect("/");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.productService.Delete(id);
             return this.Redirect("/");
         }
 

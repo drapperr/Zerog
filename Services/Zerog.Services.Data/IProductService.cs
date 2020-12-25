@@ -2,18 +2,23 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Zerog.Services.Data.Models;
+
+    using Zerog.Web.ViewModels.Products;
 
     public interface IProductService
     {
-        Task CreateAsync(CreateProductDto input);
+        Task CreateAsync(CreateProductInputModel input);
 
         IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12);
 
         int GetCount();
 
-        SingleProductDto GetById(int id);
+        SingleProductViewModel GetById(int id);
 
-        ProductPartsDto GetProductParts();
+        ProductPartsInputModel GetProductParts();
+
+        Task UpdateAsync(int id, CreateProductInputModel input);
+
+        Task Delete(int id);
     }
 }

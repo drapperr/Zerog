@@ -49,11 +49,12 @@
 
     <div id="ImagesContainer">
         <label asp-for="Images"></label>
-        <button class="btn btn-success" type="button" onclick="addInput(this,'Images')">Add</button>
+        <button class="btn btn-success" type="button" onclick="addImage(this)">Add</button>
         @{int i = 0; }
         @foreach (var image in Model.Images)
         {
             <div class="form-group">
+                <img src="@image" class="img-responsive h-10">
                 <input type="text" name="Images[@(i++)]" class="form-control input" value="@image">
                 <span asp-validation-for="Images" class="text-danger"></span>
             </div>
@@ -69,7 +70,7 @@
     <div id="PortsContainer" class="form-group">
         <label asp-for="ProductSpecifications"></label>
         <div class="form-inline form-group">
-            <input asp-for="ProductSpecifications" list="specificationNames" class="form-control input" />
+            <input list="specificationNames" class="form-control input" />
             <button class="btn btn-success" type="button" onclick="addSpecificationName(this)">AddSpecification</button>
         </div>
 
@@ -98,12 +99,31 @@
 
 @section Scripts{
     <script>
-        function addInput(x, PropName) {
+ @*<input type="text" name="Images[@(i++)]" class="form-control input" value="@image">
+                <span asp-validation-for="Images" class="text-danger"></span>*@
+        function addImage(x) {
             var parentNode = x.parentNode;
-            var div = parentNode.children[2].cloneNode(true);
             var count = parentNode.children.length - 2;
-            div.children[0].value = "";
-            div.children[0].setAttribute("name", PropName + "[" + count + "]");
+
+            var div = document.createElement("div");
+            div.classList.add("form-group");
+
+            var input = document.createElement("input");
+            input.classList.add("form-control");
+            input.classList.add("input");
+            input.setAttribute("name", "Images[" + count + "]");
+            input.setAttribute("type", "text");
+
+            div.appendChild(input);
+
+            var span = document.createElement("span");
+            span.classList.add("text-danger");
+            span.classList.add("field-validation-valid");
+            span.setAttribute("data-valmsg-for", "Images");
+            span.setAttribute("data-valmsg-replace", "true");
+
+            div.appendChild(span);
+
             parentNode.appendChild(div);
         };
     </script>

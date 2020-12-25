@@ -57,10 +57,7 @@
                         }
                     </div>
                     <p>
-                        <div class="featured-description">
-                            <ul class="tech-specs-list">
-                            </ul>
-                        </div>
+                        @Model.Manufacturer
                     </p>
 
                     <div class="add-to-cart">
@@ -70,7 +67,8 @@
                     </div>
 
                     <ul class="product-btns">
-                        <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                        
+
                         <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
                     </ul>
 
@@ -106,7 +104,7 @@
                         <div id="tab1" class="tab-pane fade in active">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table ttable tablesaw tablesaw-stack stripped-rows" data-tablesaw-mode="stack" id="tablesaw-170438">
+                                    <table class="table ttable tablesaw tablesaw-stack stripped-rows">
                                         <tbody>
                                             @foreach (var (key, value) in Model.Specificatons)
                                             {

@@ -7,14 +7,15 @@
     using Zerog.Data.Common.Repositories;
     using Zerog.Data.Models;
     using Zerog.Data.Models.ProductModels;
-    using Zerog.Services.Data.Models;
     using Zerog.Services.Mapping;
+    using Zerog.Web.ViewModels.Products;
 
     public class ProductService : IProductService
     {
         private readonly IDeletableEntityRepository<Product> productRepository;
         private readonly IDeletableEntityRepository<Manufacturer> manufacturerRepository;
         private readonly IDeletableEntityRepository<Category> categoryRepository;
+        private readonly IRepository<Image> imageRepository;
         private readonly IRepository<Specificaton> specificationRepository;
         private readonly IRepository<SpecificatonInfo> specificatonInfoRepository;
         private readonly IRepository<ProductSpecification> productSpecificationRepository;
@@ -24,6 +25,7 @@
             IDeletableEntityRepository<Product> productRepository,
             IDeletableEntityRepository<Manufacturer> manufacturerRepository,
             IDeletableEntityRepository<Category> categoryRepository,
+            IRepository<Image> imageRepository,
             IRepository<Specificaton> specificationRepository,
             IRepository<SpecificatonInfo> specificatonInfoRepository,
             IRepository<ProductSpecification> productSpecificationRepository,
@@ -32,13 +34,14 @@
             this.productRepository = productRepository;
             this.manufacturerRepository = manufacturerRepository;
             this.categoryRepository = categoryRepository;
+            this.imageRepository = imageRepository;
             this.specificationRepository = specificationRepository;
             this.specificatonInfoRepository = specificatonInfoRepository;
             this.productSpecificationRepository = productSpecificationRepository;
             this.specificationService = specificationService;
         }
 
-        public async Task CreateAsync(CreateProductDto input)
+        public async Task CreateAsync(CreateProductInputModel input)
         {
             var categoryId = await this.GetOrCreateCategory(input.Category);
 
@@ -53,12 +56,13 @@
                 ManufacturerId = manufacturerId,
                 Discount = input.Discount,
                 Price = input.Price,
-                Images = input.Images.Select(x => new Image { Url = x }).ToList(),
                 Description = input.Description,
             };
 
             await this.productRepository.AddAsync(product);
             await this.productRepository.SaveChangesAsync();
+
+            await this.AddImages(product.Id, input.Images);
 
             foreach (var (key, value) in input.ProductSpecifications)
             {
@@ -66,10 +70,30 @@
 
                 foreach (var item in value)
                 {
+                    if (string.IsNullOrEmpty(item))
+                    {
+                        continue;
+                    }
+
                     var specificatonInfoId = await this.GetOrCreateSpecificationInfo(item, specificationId);
 
                     await this.AddProductSpecification(product.Id, specificationId, specificatonInfoId);
                 }
+            }
+        }
+
+        private async Task AddImages(int id, ICollection<string> images)
+        {
+            foreach (var url in images)
+            {
+                var newImage = new Image
+                {
+                    Url = url,
+                    ProductId = id,
+                };
+
+                await this.imageRepository.AddAsync(newImage);
+                await this.imageRepository.SaveChangesAsync();
             }
         }
 
@@ -82,13 +106,13 @@
             return products;
         }
 
-        public SingleProductDto GetById(int id)
+        public SingleProductViewModel GetById(int id)
         {
             var specifications = this.specificationService.GetAllByProductId(id);
 
             var product = this.productRepository.AllAsNoTracking()
                  .Where(x => x.Id == id)
-                 .Select(x => new SingleProductDto
+                 .Select(x => new SingleProductViewModel
                  {
                      Id = x.Id,
                      Name = x.Name,
@@ -111,14 +135,14 @@
             return this.productRepository.All().Count();
         }
 
-        public ProductPartsDto GetProductParts()
+        public ProductPartsInputModel GetProductParts()
         {
             var categories = this.categoryRepository.AllAsNoTracking().Select(x => x.Name).ToList();
             var manufacturers = this.manufacturerRepository.AllAsNoTracking().Select(x => x.Name).ToList();
             var specifications = this.specificationService.GetAll();
 
 
-            var productParts = new ProductPartsDto
+            var productParts = new ProductPartsInputModel
             {
                 Categories = categories,
                 Manufacturers = manufacturers,
@@ -130,6 +154,7 @@
 
         private async Task AddProductSpecification(int productId, int specificationId, int specificatonInfoId)
         {
+
             var poductSpecification = new ProductSpecification
             {
                 ProductId = productId,
@@ -203,6 +228,74 @@
             }
 
             return specification.Id;
+        }
+
+        public async Task Delete(int id)
+        {
+            var product = this.productRepository.All().FirstOrDefault(x => x.Id == id);
+
+            this.productRepository.Delete(product);
+
+            await this.productRepository.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(int id, CreateProductInputModel input)
+        {
+            var product = this.productRepository.All().FirstOrDefault(x => x.Id == id);
+
+            var categoryId = await this.GetOrCreateCategory(input.Category);
+
+            var manufacturerId = await this.GetOrCreateManufacturer(input.Manufacturer);
+
+            var productSpecifications = new List<ProductSpecification>();
+
+            product.Name = input.Name;
+            product.CategoryId = categoryId;
+            product.ManufacturerId = manufacturerId;
+            product.Discount = input.Discount;
+            product.Price = input.Price;
+            product.Description = input.Description;
+
+            this.ClearImages(product.Id);
+
+            await this.AddImages(product.Id, input.Images);
+
+            this.ClearSpecifications(product.Id);
+
+            foreach (var (key, value) in input.ProductSpecifications)
+            {
+                var specificationId = await this.GetOrCreateSpecification(key);
+
+                foreach (var item in value)
+                {
+                    if (string.IsNullOrEmpty(item))
+                    {
+                        continue;
+                    }
+
+                    var specificatonInfoId = await this.GetOrCreateSpecificationInfo(item, specificationId);
+
+                    await this.AddProductSpecification(product.Id, specificationId, specificatonInfoId);
+                }
+            }
+
+            await this.productRepository.SaveChangesAsync();
+        }
+
+        private void ClearImages(int id)
+        {
+            foreach (var item in this.imageRepository.All().Where(x => x.ProductId == id).ToList())
+            {
+                this.imageRepository.Delete(item);
+            }
+        }
+
+        private void ClearSpecifications(int id)
+        {
+            foreach (var item in this.productSpecificationRepository.All().Where(x => x.ProductId == id).ToList())
+            {
+                this.productSpecificationRepository.Delete(item);
+            }
         }
     }
 }

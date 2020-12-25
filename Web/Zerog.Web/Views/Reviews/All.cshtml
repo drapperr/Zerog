@@ -1,0 +1,147 @@
+﻿@model Zerog.Web.ViewModels.Reviews.AllReviewsViewModel
+
+<div class="row">
+    <!-- Rating -->
+    <div class="col-md-3">
+        <div id="rating">
+            <div class="rating-avg">
+                <span>@Model.AverageStars.ToString("F2")</span>
+                <div class="rating-stars">
+                    @for (int i = 0; i < (int)Model.AverageStars; i++)
+                    {
+                        <i class="fa fa-star"></i>
+                    }
+                    @for (int i = 0; i < 5 - (int)Model.AverageStars; i++)
+                    {
+                        <i class="fa fa-star-o empty"></i>
+                    }
+                    </div>
+            </div>
+            <ul class="rating">
+                <li>
+                    <div class="rating-stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="rating-progress">
+                        @{var percet = (double)@Model.Stars[5]/@Model.Reviews.Count*100;}
+                        <div style="width: @percet%;"></div>
+                    </div>
+                    <span class="sum">@Model.Stars[5]</span>
+                </li>
+                <li>
+                    <div class="rating-stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <div class="rating-progress">
+                        @{percet = (double)@Model.Stars[4] / @Model.Reviews.Count * 100;}
+                        <div style="width: @percet%;"></div>
+                    </div>
+                    <span class="sum">@Model.Stars[4]</span>
+                </li>
+                <li>
+                    <div class="rating-stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <div class="rating-progress">
+                        @{percet = (double)@Model.Stars[3] / @Model.Reviews.Count * 100;}
+                        <div style="width: @percet%;"></div>
+                    </div>
+                    <span class="sum">@Model.Stars[3]</span>
+                </li>
+                <li>
+                    <div class="rating-stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <div class="rating-progress">
+                        @{percet = (double)@Model.Stars[2] / @Model.Reviews.Count * 100;}
+                        <div style="width: @percet%;"></div>
+                    </div>
+                    <span class="sum">@Model.Stars[2]</span>
+                </li>
+                <li>
+                    <div class="rating-stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <div class="rating-progress">
+                        @{percet = (double)@Model.Stars[1] / @Model.Reviews.Count * 100;}
+                        <div style="width: @percet%;"></div>
+                    </div>
+                    <span class="sum">@Model.Stars[1]</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /Rating -->
+    <!-- Reviews -->
+    <div class="col-md-6">
+        <div id="reviews">
+            <ul class="reviews">
+                @foreach (var review in Model.Reviews)
+                {
+                    <li>
+                        <div class="review-heading">
+                            <h5 class="name">@review.UserName</h5>
+                            <p class="date">@review.Date</p>
+                            <div class="review-rating">
+                                @for (int i = 0; i < review.Stars; i++)
+                                {
+                                    <i class="fa fa-star"></i>
+                                }
+                                @for (int i = 0; i < 5 - review.Stars; i++)
+                                {
+                                    <i class="fa fa-star-o empty"></i>
+                                }
+                            </div>
+                        </div>
+                        <div class="review-body">
+                            <p>@review.Content</p>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <!-- /Reviews -->
+    <!-- Review Form -->
+    <div class="col-md-3">
+        <div id="review-form">
+            <form class="review-form" method="post" asp-controller="Reviews" asp-action="Add" asp-route-id="@Model.ProductId">
+                <textarea class="input" placeholder="Your Review" name="Content"></textarea>
+                <div class="input-rating">
+                    <span>Your Rating: </span>
+                    <div class="stars">
+                        <input id="star5" name="stars" value="5" type="radio"><label for="star5"></label>
+                        <input id="star4" name="stars" value="4" type="radio"><label for="star4"></label>
+                        <input id="star3" name="stars" value="3" type="radio"><label for="star3"></label>
+                        <input id="star2" name="stars" value="2" type="radio"><label for="star2"></label>
+                        <input id="star1" name="stars" value="1" type="radio"><label for="star1"></label>
+                    </div>
+                </div>
+                <input name="userId" value="@Model.UserId" hidden />
+                <input name="productId" value="@Model.ProductId" hidden />
+                <button class="primary-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+    <!-- /Review Form -->
+</div>
