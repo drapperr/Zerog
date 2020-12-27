@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\Zerog.Services.Mapping\Zerog.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Administration\" />
+  </ItemGroup>
+
 </Project>

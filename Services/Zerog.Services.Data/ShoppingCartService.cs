@@ -9,20 +9,20 @@
 
     public class ShoppingCartService : IShoppingCartService
     {
-        private readonly IRepository<ShoppingCart> shoppingCardRepository;
+        private readonly IRepository<ShoppingCart> shoppingCartRepository;
         private readonly IRepository<ShoppingCartItem> productCoutnRepository;
 
         public ShoppingCartService(
-            IRepository<ShoppingCart> shoppingCardRepository,
-            IRepository<ShoppingCartItem> productCoutnRepository)
+            IRepository<ShoppingCart> shoppingCartRepository,
+            IRepository<ShoppingCartItem> productCountRepository)
         {
-            this.shoppingCardRepository = shoppingCardRepository;
-            this.productCoutnRepository = productCoutnRepository;
+            this.shoppingCartRepository = shoppingCartRepository;
+            this.productCoutnRepository = productCountRepository;
         }
 
         public async Task AddProductAsync(string userId, int productId)
         {
-            var shoppingCart = this.shoppingCardRepository.All().FirstOrDefault(x => x.UserId == userId);
+            var shoppingCart = this.shoppingCartRepository.All().FirstOrDefault(x => x.UserId == userId);
 
             if (shoppingCart is null)
             {
@@ -31,8 +31,8 @@
                     UserId = userId,
                 };
 
-                await this.shoppingCardRepository.AddAsync(newShoppingCart);
-                await this.shoppingCardRepository.SaveChangesAsync();
+                await this.shoppingCartRepository.AddAsync(newShoppingCart);
+                await this.shoppingCartRepository.SaveChangesAsync();
 
                 shoppingCart = newShoppingCart;
             }
@@ -61,7 +61,7 @@
 
         public async Task<T> GetByUserId<T>(string id)
         {
-            var shoppingCart = this.shoppingCardRepository.All().FirstOrDefault(x => x.UserId == id);
+            var shoppingCart = this.shoppingCartRepository.All().FirstOrDefault(x => x.UserId == id);
 
             if (shoppingCart is null)
             {
@@ -70,13 +70,13 @@
                     UserId = id,
                 };
 
-                await this.shoppingCardRepository.AddAsync(newShoppingCart);
-                await this.shoppingCardRepository.SaveChangesAsync();
+                await this.shoppingCartRepository.AddAsync(newShoppingCart);
+                await this.shoppingCartRepository.SaveChangesAsync();
 
                 shoppingCart = newShoppingCart;
             }
 
-            var viewModel = this.shoppingCardRepository.All()
+            var viewModel = this.shoppingCartRepository.All()
                 .Where(x => x.UserId == id).To<T>().FirstOrDefault();
 
             return viewModel;
@@ -84,7 +84,7 @@
 
         public async Task DeleteItem(string userId, int itemId)
         {
-            var shoppingCart = this.shoppingCardRepository.All().FirstOrDefault(x => x.UserId == userId);
+            var shoppingCart = this.shoppingCartRepository.All().FirstOrDefault(x => x.UserId == userId);
 
             var item = this.productCoutnRepository.All()
                 .FirstOrDefault(x => x.ShoppingCart == shoppingCart && x.Id == itemId);
@@ -96,6 +96,21 @@
             else
             {
                 item.Quantity -= 1;
+            }
+
+            await this.productCoutnRepository.SaveChangesAsync();
+        }
+
+        public async Task ClearItems(string userId)
+        {
+            var shoppingCart = this.shoppingCartRepository.All().FirstOrDefault(x => x.UserId == userId);
+
+            var items = this.productCoutnRepository.All()
+               .Where(x => x.ShoppingCart == shoppingCart);
+
+            foreach (var item in items)
+            {
+                this.productCoutnRepository.Delete(item);
             }
 
             await this.productCoutnRepository.SaveChangesAsync();

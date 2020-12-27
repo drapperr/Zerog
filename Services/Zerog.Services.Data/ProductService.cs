@@ -141,7 +141,6 @@
             var manufacturers = this.manufacturerRepository.AllAsNoTracking().Select(x => x.Name).ToList();
             var specifications = this.specificationService.GetAll();
 
-
             var productParts = new ProductPartsInputModel
             {
                 Categories = categories,
@@ -154,7 +153,6 @@
 
         private async Task AddProductSpecification(int productId, int specificationId, int specificatonInfoId)
         {
-
             var poductSpecification = new ProductSpecification
             {
                 ProductId = productId,

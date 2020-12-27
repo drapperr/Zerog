@@ -1,0 +1,76 @@
+﻿@model Zerog.Web.ViewModels.Orders.OrderViewModel
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default invoice" id="invoice">
+            <div class="panel-body">
+                <div class="row">
+
+                    <div class="col-xs-4 from">
+                        <p class="lead marginbottom">From : Zerog</p>
+                        <p>350 Rhode Island Street</p>
+                        <p>Suite 240, San Francisco</p>
+                        <p>California, 94103</p>
+                        <p>Phone: 415-767-3600</p>
+                        <p>Email: contact@zerog.com</p>
+                    </div>
+
+                    <div class="col-xs-4 to">
+                        <p class="lead marginbottom">To : @Model.FullName</p>
+                        <p>@Model.Address</p>
+                        <p>@Model.City</p>
+                        <p>@Model.Country</p>
+                        <p>Phone: @Model.Phone</p>
+                        <p>Email: @Model.Email</p>
+
+                    </div>
+
+                    <div class="col-xs-4 text-right payment-details">
+                        <p class="lead marginbottom payment-info">Payment details</p>
+                        <p>Date: @Model.Date</p>
+                        <p>Total Amount: $@Model.Total</p>
+                        <p>Payment Method: @Model.PaymentMethod</p>
+                        <p>Account Name: @Model.Username</p>
+                        <p>Order Status: @Model.Status</p>
+                    </div>
+
+                </div>
+
+                <div class="row table-row">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:5%">#</th>
+                                <th style="width:50%">Item</th>
+                                <th class="text-right" style="width:15%">Quantity</th>
+                                <th class="text-right" style="width:15%">Unit Price</th>
+                                <th class="text-right" style="width:15%">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int counter = 1; }
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td class="text-center">@(counter++)</td>
+                                    <td><a href="/Products/ById/@item.Id">@item.Name</a></td>
+                                    <td class="text-right">@item.Quantity</td>
+                                    <td class="text-right">$@item.Price</td>
+                                    <td class="text-right">$@item.Total.ToString("F2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6 text-right pull-right">
+                        <p>Total : $@Model.Total </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

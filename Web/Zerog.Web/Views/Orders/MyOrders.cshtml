@@ -1,0 +1,23 @@
+﻿@model ICollection<Zerog.Web.ViewModels.Orders.OrderInListViewModel>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Order Number</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><a href="/Orders/ById/@item.OrderId">@item.OrderId</a></td>
+                <td>@item.Date</td>
+                <td>@item.Total</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

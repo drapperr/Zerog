@@ -71,6 +71,8 @@
             services.AddTransient<IArdesBgScraperService, ArdesBgScraperService>();
             services.AddTransient<IWishListService, WishListService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<IAddressService, AddresssService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

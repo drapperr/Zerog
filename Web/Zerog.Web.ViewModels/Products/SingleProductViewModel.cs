@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using Zerog.Web.ViewModels.Reviews;
+
     public class SingleProductViewModel
     {
         public int Id { get; set; }
@@ -28,5 +30,9 @@
         public string Description { get; set; }
 
         public Dictionary<string, List<string>> Specificatons { get; set; }
+
+        public ICollection<SingleReviewViewModel> Reviews { get; set; }
+
+        public double Stars { get; set; }
     }
 }

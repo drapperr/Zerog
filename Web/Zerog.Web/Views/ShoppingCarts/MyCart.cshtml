@@ -34,9 +34,9 @@
                         <div><strong class="order-total">$@Model.Total.ToString("F")</strong></div>
                     </div>
                 </div>
-                <div class="payment-method">
+                <form class="payment-method">
                     <div class="input-radio">
-                        <input type="radio" name="payment" id="payment-1">
+                        <input type="radio" name="payment" id="payment-1" value="Direct Bank Transfer">
                         <label for="payment-1">
                             <span></span>
                             Direct Bank Transfer
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="input-radio">
-                        <input type="radio" name="payment" id="payment-2">
+                        <input type="radio" name="payment" id="payment-2" value="Cheque Payment">
                         <label for="payment-2">
                             <span></span>
                             Cheque Payment
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="input-radio">
-                        <input type="radio" name="payment" id="payment-3">
+                        <input type="radio" name="payment" id="payment-3" value="Paypal System">
                         <label for="payment-3">
                             <span></span>
                             Paypal System
@@ -65,15 +65,16 @@
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                         </div>
                     </div>
-                </div>
-                <div class="input-checkbox">
-                    <input type="checkbox" id="terms">
-                    <label for="terms">
-                        <span></span>
-                        I've read and accept the <a href="#">terms & conditions</a>
-                    </label>
-                </div>
-                <a href="#" class="primary-btn order-submit">Place order</a>
+                    <div class="input-checkbox">
+                        <input type="checkbox" id="terms">
+                        <label for="terms">
+                            <span></span>
+                            I've read and accept the <a href="#">terms & conditions</a>
+                        </label>
+                    </div>
+
+                    <button asp-controller="Orders" asp-action="Create" class="primary-btn order-submit">Place order</button>
+                </form>
             </div>
             <!-- /Order Details -->
         </div>

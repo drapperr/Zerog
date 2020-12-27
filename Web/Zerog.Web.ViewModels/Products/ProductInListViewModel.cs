@@ -4,6 +4,7 @@
     using System.Linq;
 
     using AutoMapper;
+    using Zerog.Data.Models;
     using Zerog.Data.Models.ProductModels;
     using Zerog.Services.Mapping;
 
@@ -24,6 +25,8 @@
         public string CategoryName { get; set; }
 
         public bool IsNew { get; set; }
+
+        public double Stars { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

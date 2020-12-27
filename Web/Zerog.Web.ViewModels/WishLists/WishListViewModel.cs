@@ -1,7 +1,8 @@
 ﻿namespace Zerog.Web.ViewModels.WishLists
 {
-    using AutoMapper;
     using System.Linq;
+
+    using AutoMapper;
     using Zerog.Data.Models.ProductModels;
     using Zerog.Services.Mapping;
 

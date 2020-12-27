@@ -25,6 +25,5 @@
 
         [MaxLength(450)]
         public string PaymentMethod { get; set; }
-
     }
 }

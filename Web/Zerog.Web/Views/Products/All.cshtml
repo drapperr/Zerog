@@ -1,4 +1,5 @@
 ﻿@model Zerog.Web.ViewModels.Products.ProductListViewModel
+
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
@@ -195,11 +196,14 @@
                                             }
                                         </h4>
                                         <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            @for (int i = 0; i < (int)product.Stars; i++)
+                                            {
+                                                <i class="fa fa-star"></i>
+                                            }
+                                            @for (int i = 0; i < 5 - (int)product.Stars; i++)
+                                            {
+                                                <i class="fa fa-star-o empty"></i>
+                                            }
                                         </div>
                                         <div class="product-btns">
                                             <button class="add-to-wishlist"><a href="/WishLists/Add/@product.Id"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></a></button>
