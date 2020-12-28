@@ -1,5 +1,7 @@
 ﻿namespace Zerog.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     using Zerog.Data.Common.Models;
     using Zerog.Data.Models.ProductModels;
 
@@ -13,6 +15,8 @@
 
         public Order Order { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         public decimal Price { get; set; }

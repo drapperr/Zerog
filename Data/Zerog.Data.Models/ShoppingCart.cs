@@ -1,7 +1,7 @@
 ﻿namespace Zerog.Data.Models
 {
     using System.Collections.Generic;
-    using System.Linq;
+    using System.ComponentModel.DataAnnotations;
 
     using Zerog.Data.Common.Models;
 
@@ -12,6 +12,7 @@
             this.Items = new HashSet<ShoppingCartItem>();
         }
 
+        [Required]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }

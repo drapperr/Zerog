@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using Zerog.Services.Mapping;
-
     public class ProductPartsInputModel
     {
         public ICollection<string> Manufacturers { get; set; }

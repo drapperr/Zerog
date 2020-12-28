@@ -127,6 +127,7 @@
         <div id="review-form">
             <form class="review-form" method="post" asp-controller="Reviews" asp-action="Add" asp-route-id="@Model.ProductId">
                 <textarea class="input" placeholder="Your Review" name="Content"></textarea>
+                <span asp-validation-for="Reviews.FirstOrDefault().Content" class="text-danger"></span>
                 <div class="input-rating">
                     <span>Your Rating: </span>
                     <div class="stars">
@@ -136,6 +137,7 @@
                         <input id="star2" name="stars" value="2" type="radio"><label for="star2"></label>
                         <input id="star1" name="stars" value="1" type="radio"><label for="star1"></label>
                     </div>
+                    <span asp-validation-for="Reviews.FirstOrDefault().Stars" class="text-danger"></span>
                 </div>
                 <input name="userId" value="@Model.UserId" hidden />
                 <input name="productId" value="@Model.ProductId" hidden />

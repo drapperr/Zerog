@@ -28,6 +28,11 @@
         [HttpPost]
         public async Task<IActionResult> Create(AddressInputModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             await this.addressService.Add(input, userId);

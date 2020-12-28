@@ -870,13 +870,13 @@ textarea.input {
   position: relative;
 }
 
-    .product .product-img > img {
-        width: 100%;
-        width: 260px;
-        height: 200px;
-        background-position: center center;
-        background-repeat: no-repeat;
-    }
+	.product .product-img > img {
+		width: 100%;
+		width: 300px;
+		height: 260px;
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
 
 .product .product-img .product-label {
   position: absolute;

@@ -37,7 +37,7 @@
                 .Select(x => new OrderItem
                 {
                     Name = x.Product.Name,
-                    Price = x.Product.Price,
+                    Price = x.Product.NewPrice,
                     Quantity = x.Quantity,
                     ProductId = x.ProductId,
                 }).ToList();

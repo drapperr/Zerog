@@ -1,6 +1,5 @@
 ﻿namespace Zerog.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -42,6 +41,24 @@
         [Authorize]
         public async Task<IActionResult> Create(CreateProductInputModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                var productPartsDto = this.productService.GetProductParts();
+                var productParts = new ProductPartsInputModel
+                {
+                    Categories = productPartsDto.Categories,
+                    Manufacturers = productPartsDto.Manufacturers,
+                    Specifications = productPartsDto.Specifications,
+                };
+
+                var inputModel = new CreateProductInputModel
+                {
+                    ProductParts = productParts,
+                };
+
+                return this.View(inputModel);
+            }
+
             await this.productService.CreateAsync(input);
             return this.Redirect("/");
         }
@@ -91,7 +108,6 @@
             return this.Redirect("/");
         }
 
-        [Authorize]
         public async Task<IActionResult> All(int id = 1)
         {
             if (id <= 0)
@@ -117,7 +133,6 @@
             return this.View(viewModel);
         }
 
-        [Authorize]
         public async Task<IActionResult> ById(int id)
         {
             var product = this.productService.GetById(id);

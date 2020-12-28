@@ -1,5 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace Zerog.Data.Models
+﻿namespace Zerog.Data.Models
 {
     using System;
 

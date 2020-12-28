@@ -23,7 +23,8 @@
 
         public int OrderStatus { get; set; }
 
-        [MaxLength(450)]
+        [Required]
+        [MaxLength(50)]
         public string PaymentMethod { get; set; }
     }
 }

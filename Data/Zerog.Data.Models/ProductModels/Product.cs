@@ -35,6 +35,7 @@
 
         public virtual ICollection<ProductSpecification> ProductSpecifications { get; set; }
 
+        [MaxLength(200)]
         public string Description { get; set; }
     }
 }

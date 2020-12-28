@@ -18,8 +18,14 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Add(CreateReviewInputModel input)
+        [HttpPost]
+        public async Task<IActionResult> Add(CreateReviewInputModel input ,int id)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Redirect($"/Reviews/All/{id}");
+            }
+
             input.UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             await this.reviewService.Add(input);
