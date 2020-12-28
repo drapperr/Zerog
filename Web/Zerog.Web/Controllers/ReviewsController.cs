@@ -19,7 +19,7 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Add(CreateReviewInputModel input ,int id)
+        public async Task<IActionResult> Add(CreateReviewInputModel input , int id)
         {
             if (!this.ModelState.IsValid)
             {
@@ -30,7 +30,7 @@
 
             await this.reviewService.Add(input);
 
-            return this.Redirect($"/Reviews/All/{input.ProductId}");
+            return this.Redirect($"/Reviews/All/{id}");
         }
 
         [Authorize]

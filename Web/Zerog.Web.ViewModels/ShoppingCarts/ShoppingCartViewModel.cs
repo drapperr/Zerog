@@ -1,4 +1,4 @@
-﻿namespace Zerog.Web.ViewModels.Products
+﻿namespace Zerog.Web.ViewModels.ShoppingCarts
 {
     using System.Collections.Generic;
     using System.Linq;

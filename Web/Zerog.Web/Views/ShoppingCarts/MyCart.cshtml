@@ -1,4 +1,6 @@
-﻿@model Zerog.Web.ViewModels.Products.ShoppingCartViewModel
+﻿@model Zerog.Web.ViewModels.ShoppingCarts.ShoppingCartViewModel
+@(ViewData["Title"] = "MyShoppingCart")
+
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
@@ -34,7 +36,7 @@
                         <div><strong class="order-total">$@Model.Total.ToString("F")</strong></div>
                     </div>
                 </div>
-                <form class="payment-method">
+                <form class="payment-method" method="post" asp-controller="Orders" asp-action="Create" >
                     <div class="input-radio">
                         <input type="radio" name="payment" id="payment-1" value="Direct Bank Transfer">
                         <label for="payment-1">
@@ -73,7 +75,7 @@
                         </label>
                     </div>
 
-                    <button asp-controller="Orders" asp-action="Create" class="primary-btn order-submit">Place order</button>
+                    <button class="primary-btn order-submit">Place order</button>
                 </form>
             </div>
             <!-- /Order Details -->

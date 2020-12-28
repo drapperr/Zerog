@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Zerog.Web.ViewModels.Administration.Products;
     using Zerog.Web.ViewModels.Products;
 
     public interface IProductService
@@ -10,6 +11,8 @@
         Task CreateAsync(CreateProductInputModel input);
 
         IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12);
+
+        IEnumerable<T> GetAll<T>();
 
         int GetCount();
 

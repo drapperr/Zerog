@@ -8,6 +8,7 @@
     using Zerog.Data.Models;
     using Zerog.Data.Models.ProductModels;
     using Zerog.Services.Mapping;
+    using Zerog.Web.ViewModels.Administration.Products;
     using Zerog.Web.ViewModels.Products;
 
     public class ProductService : IProductService
@@ -294,6 +295,15 @@
             {
                 this.productSpecificationRepository.Delete(item);
             }
+        }
+
+        public IEnumerable<T> GetAll<T>()
+        {
+            var products = this.productRepository.AllAsNoTracking()
+               .OrderByDescending(x => x.Id)
+               .To<T>().ToList();
+
+            return products;
         }
     }
 }

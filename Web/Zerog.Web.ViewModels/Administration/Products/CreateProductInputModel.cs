@@ -1,4 +1,4 @@
-﻿namespace Zerog.Web.ViewModels.Products
+﻿namespace Zerog.Web.ViewModels.Administration.Products
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

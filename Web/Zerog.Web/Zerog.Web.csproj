@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -41,9 +42,5 @@
     <ProjectReference Include="..\..\Services\Zerog.Services\Zerog.Services.csproj" />
     <ProjectReference Include="..\Zerog.Web.Infrastructure\Zerog.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\Zerog.Web.ViewModels\Zerog.Web.ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Administration\Views\Products\" />
   </ItemGroup>
 </Project>

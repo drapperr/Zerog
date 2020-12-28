@@ -1,4 +1,5 @@
 ﻿@model Zerog.Web.ViewModels.Products.SingleProductViewModel
+@(ViewData["Title"] = "Product")
 
 <div class="section">
     <!-- container -->
@@ -70,7 +71,7 @@
                     </div>
 
                     <ul class="product-btns">
-                        <li><a href="/WishLists/Add/@Model.Id"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                        <li><a asp-controller="WishLists" asp-action="Add" asp-route-id="@Model.Id" ><i class="fa fa-heart-o"></i> add to wishlist</a></li>
                         <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
                     </ul>
 

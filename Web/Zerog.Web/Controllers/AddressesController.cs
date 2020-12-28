@@ -1,11 +1,10 @@
 ﻿namespace Zerog.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
     using Zerog.Services.Data;
     using Zerog.Web.ViewModels.Addresses;
 
@@ -19,7 +18,7 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return this.View();
         }
@@ -41,7 +40,7 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> MyAddress()
+        public IActionResult MyAddress()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 

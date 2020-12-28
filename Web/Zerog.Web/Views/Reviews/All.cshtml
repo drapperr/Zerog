@@ -1,4 +1,5 @@
 ﻿@model Zerog.Web.ViewModels.Reviews.AllReviewsViewModel
+@(ViewData["Title"] = "Reviews")
 
 <div class="row">
     <!-- Rating -->
@@ -15,7 +16,7 @@
                     {
                         <i class="fa fa-star-o empty"></i>
                     }
-                    </div>
+                </div>
             </div>
             <ul class="rating">
                 <li>
@@ -27,7 +28,7 @@
                         <i class="fa fa-star"></i>
                     </div>
                     <div class="rating-progress">
-                        @{var percet = (double)@Model.Stars[5]/@Model.Reviews.Count*100;}
+                        @{var percet = (double)@Model.Stars[5] / @Model.Reviews.Count * 100;}
                         <div style="width: @percet%;"></div>
                     </div>
                     <span class="sum">@Model.Stars[5]</span>

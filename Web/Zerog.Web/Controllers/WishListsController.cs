@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Zerog.Services.Data;
-using Zerog.Web.ViewModels.WishLists;
-
-namespace Zerog.Web.Controllers
+﻿namespace Zerog.Web.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Zerog.Services.Data;
+    using Zerog.Web.ViewModels.WishLists;
+
     public class WishListsController : BaseController
     {
         private readonly IWishListService wishListService;

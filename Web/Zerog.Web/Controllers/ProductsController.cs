@@ -1,7 +1,5 @@
 ﻿namespace Zerog.Web.Controllers
 {
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Zerog.Services.Data;
     using Zerog.Web.ViewModels.Products;
@@ -18,97 +16,7 @@
             this.reviewService = reviewService;
         }
 
-        [Authorize]
-        public async Task<IActionResult> Create()
-        {
-            var productPartsDto = this.productService.GetProductParts();
-            var productParts = new ProductPartsInputModel
-            {
-                Categories = productPartsDto.Categories,
-                Manufacturers = productPartsDto.Manufacturers,
-                Specifications = productPartsDto.Specifications,
-            };
-
-            var inputModel = new CreateProductInputModel
-            {
-                ProductParts = productParts,
-            };
-
-            return this.View(inputModel);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Create(CreateProductInputModel input)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                var productPartsDto = this.productService.GetProductParts();
-                var productParts = new ProductPartsInputModel
-                {
-                    Categories = productPartsDto.Categories,
-                    Manufacturers = productPartsDto.Manufacturers,
-                    Specifications = productPartsDto.Specifications,
-                };
-
-                var inputModel = new CreateProductInputModel
-                {
-                    ProductParts = productParts,
-                };
-
-                return this.View(inputModel);
-            }
-
-            await this.productService.CreateAsync(input);
-            return this.Redirect("/");
-        }
-
-        [Authorize]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var productPartsDto = this.productService.GetProductParts();
-            var productParts = new ProductPartsInputModel
-            {
-                Categories = productPartsDto.Categories,
-                Manufacturers = productPartsDto.Manufacturers,
-                Specifications = productPartsDto.Specifications,
-            };
-
-            var product = this.productService.GetById(id);
-
-            var inputModel = new CreateProductInputModel
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                Discount = product.Discount,
-                Category = product.Category,
-                Manufacturer = product.Manufacturer,
-                Images = product.Images,
-                Description = product.Description,
-                ProductSpecifications = product.Specificatons,
-                ProductParts = productParts,
-            };
-
-            return this.View(inputModel);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Edit(int id, CreateProductInputModel input)
-        {
-            await this.productService.UpdateAsync(id, input);
-            return this.Redirect("/");
-        }
-
-        [Authorize]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await this.productService.Delete(id);
-            return this.Redirect("/");
-        }
-
-        public async Task<IActionResult> All(int id = 1)
+        public IActionResult All(int id = 1)
         {
             if (id <= 0)
             {
@@ -133,7 +41,7 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> ById(int id)
+        public IActionResult ById(int id)
         {
             var product = this.productService.GetById(id);
 

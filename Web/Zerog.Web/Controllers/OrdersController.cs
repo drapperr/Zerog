@@ -14,7 +14,8 @@
         private readonly IShoppingCartService shoppingCartService;
         private readonly IAddressService addressService;
 
-        public OrdersController(IOrdersService orderService,
+        public OrdersController(
+            IOrdersService orderService,
             IShoppingCartService shoppingCartService,
             IAddressService addressService)
         {
@@ -43,7 +44,7 @@
 
 
         [Authorize]
-        public async Task<IActionResult> MyOrders()
+        public IActionResult MyOrders()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
@@ -53,7 +54,7 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> ById(int id)
+        public IActionResult ById(int id)
         {
             var items = this.orderService.GetOrderProductListById(id);
 

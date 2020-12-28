@@ -1,4 +1,5 @@
 ﻿@model Zerog.Web.ViewModels.Products.ProductListViewModel
+@(ViewData["Title"] = "AllProducts")
 
 <!-- SECTION -->
 <div class="section">
@@ -6,75 +7,75 @@
     <div class="container">
         <!-- row -->
         <div class="row">
-            
-                <div class="row">
-                    @foreach (var product in Model.Products)
-                    {
-                        <!-- product -->
-                        <div class="col-md-4 col-xs-6">
-                            <a asp-action="ById" asp-route-id="@product.Id">
-                                <div class="product ">
-                                    <div class="product-img">
-                                        <img src="@product.ImageUrl" alt="">
-                                        <div class="product-label">
-                                            @if (product.Discount != null)
-                                            {
-                                                <span class="sale">-@product.Discount%</span>
-                                            }
-                                            @if (product.IsNew)
-                                            {
-                                                <span class="new">NEW</span>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="product-body">
-                                        <p class="product-category">@product.CategoryName</p>
-                                        <h3 class="product-name"><a asp-action="ById" asp-route-id="@product.Id">@product.Name</a></h3>
-                                        <h4 class="product-price">
-                                            $@product.NewPrice.ToString("F")
-                                            @if (product.Discount != null)
-                                            {
-                                                <del class="product-old-price">$@product.Price.ToString("F")</del>
-                                            }
-                                        </h4>
-                                        <div class="product-rating">
-                                            @for (int i = 0; i < (int)product.Stars; i++)
-                                            {
-                                                <i class="fa fa-star"></i>
-                                            }
-                                            @for (int i = 0; i < 5 - (int)product.Stars; i++)
-                                            {
-                                                <i class="fa fa-star-o empty"></i>
-                                            }
-                                        </div>
-                                        <div class="product-btns">
-                                            <button class="add-to-wishlist"><a href="/WishLists/Add/@product.Id"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></a></button>
-                                            <button class="add-to-compare"><a href="/Reviews/All/@product.Id"><i class="fa fa-comment"></i><span class="tooltipp">add review</span></a></button>
-                                            <button class="quick-view"><a href="/Products/ById/@product.Id"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></a></button>
-                                        </div>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <form method="post" asp-controller="ShoppingCarts" asp-action="AddProduct" asp-route-id="@product.Id">
-                                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                        </form>
+
+            <div class="row">
+                @foreach (var product in Model.Products)
+                {
+                    <!-- product -->
+                    <div class="col-md-4 col-xs-6">
+                        <a asp-action="ById" asp-route-id="@product.Id">
+                            <div class="product ">
+                                <div class="product-img">
+                                    <img src="@product.ImageUrl" alt="">
+                                    <div class="product-label">
+                                        @if (product.Discount != null)
+                                        {
+                                            <span class="sale">-@product.Discount%</span>
+                                        }
+                                        @if (product.IsNew)
+                                        {
+                                            <span class="new">NEW</span>
+                                        }
                                     </div>
                                 </div>
-                            </a>
-                        </div>
-                        <!-- /product -->
-                    }
+                                <div class="product-body">
+                                    <p class="product-category">@product.CategoryName</p>
+                                    <h3 class="product-name"><a asp-action="ById" asp-route-id="@product.Id">@product.Name</a></h3>
+                                    <h4 class="product-price">
+                                        $@product.NewPrice.ToString("F")
+                                        @if (product.Discount != null)
+                                        {
+                                            <del class="product-old-price">$@product.Price.ToString("F")</del>
+                                        }
+                                    </h4>
+                                    <div class="product-rating">
+                                        @for (int i = 0; i < (int)product.Stars; i++)
+                                        {
+                                            <i class="fa fa-star"></i>
+                                        }
+                                        @for (int i = 0; i < 5 - (int)product.Stars; i++)
+                                        {
+                                            <i class="fa fa-star-o empty"></i>
+                                        }
+                                    </div>
+                                    <div class="product-btns">
+                                        <button class="add-to-wishlist"><a asp-controller="WishLists" asp-action="Add" asp-route-id="@product.Id" ><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></a></button>
+                                        <button class="add-to-compare"><a asp-controller="Reviews" asp-action="All" asp-route-id="@product.Id" ><i class="fa fa-comment"></i><span class="tooltipp">add review</span></a></button>
+                                        <button class="quick-view"><a asp-action="Products" asp-route-id="@product.Id" ><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></a></button>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <form method="post" asp-controller="ShoppingCarts" asp-action="AddProduct" asp-route-id="@product.Id">
+                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- /product -->
+                }
 
-                </div>
-                <!-- /store products -->
-                <!-- store bottom filter -->
-                <partial name="_PagingPartial" model="@Model" />
-                <!-- /store bottom filter -->
             </div>
-            <!-- /STORE -->
+            <!-- /store products -->
+            <!-- store bottom filter -->
+            <partial name="_PagingPartial" model="@Model" />
+            <!-- /store bottom filter -->
         </div>
-        <!-- /row -->
+        <!-- /STORE -->
     </div>
-    <!-- /container -->
+    <!-- /row -->
+</div>
+<!-- /container -->
 </div>
 <!-- /SECTION -->
 <!-- NEWSLETTER -->
